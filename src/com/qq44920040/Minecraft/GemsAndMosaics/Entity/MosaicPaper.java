@@ -26,6 +26,7 @@ public class MosaicPaper {
     public ItemStack UpMosaicPaper(ItemStack itemStack){
         ItemMeta itemMeta = itemStack.getItemMeta();
         String DisPlayName = itemMeta.getDisplayName();
+
         return itemStack;
     }
 }
