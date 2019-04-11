@@ -4,8 +4,18 @@ package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 import net.minecraft.server.v1_12_R1.ItemMapEmpty;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.junit.Test;
+
+import java.util.regex.Pattern;
+
+import static com.qq44920040.Minecraft.GemsAndMosaics.Util.Transformation.a2r;
+import static com.qq44920040.Minecraft.GemsAndMosaics.Util.Transformation.r2a;
 
 public class MosaicPaper {
+    public MosaicPaper(String mosaicPaperLoreKey) {
+        MosaicPaperLoreKey = mosaicPaperLoreKey;
+    }
+
     public String MosaicPaperLoreKey;
     @Override
     public boolean equals(Object object){
@@ -23,10 +33,4 @@ public class MosaicPaper {
         return false;
     }
 
-    public ItemStack UpMosaicPaper(ItemStack itemStack){
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        String DisPlayName = itemMeta.getDisplayName();
-
-        return itemStack;
-    }
 }
