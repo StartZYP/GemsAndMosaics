@@ -1,10 +1,9 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 
 
-import net.minecraft.server.v1_12_R1.ItemMapEmpty;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.junit.Test;
 
 import java.util.regex.Pattern;
 
@@ -17,7 +16,7 @@ public class MosaicPaper {
     }
 
     String MosaicPaperLoreKey;
-    int LevelUpNeedNum =10;
+    static final int LevelUpNeedNum =10;
     @Override
     public boolean equals(Object object){
         if (object!=null){
@@ -33,5 +32,26 @@ public class MosaicPaper {
         }
         return false;
     }
+    public static void TakeMosaicPaper(Player player,ItemStack itemStack){
+        int Amount = itemStack.getAmount();
+        if (Amount==LevelUpNeedNum){
+            player.getInventory().remove(itemStack);
+        }else {
+            player.getInventory().remove(itemStack);
+            itemStack.setAmount(Amount-LevelUpNeedNum);
+            player.getInventory().addItem(itemStack);
+        }
+    }
 
+    public static ItemStack UpMosaicPaper(ItemStack itemStack){
+        itemStack.setAmount(1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        String DisPlayName = itemMeta.getDisplayName();
+        String Level = Pattern.compile("(l?x{0,3}|x[lc])(v?i{0,3}|i[vx])$").matcher(DisPlayName).group(0);
+        String RePlaceLevel = a2r(r2a(Level)+1);
+        String NowDisPlayerName = DisPlayName.replace(Level,RePlaceLevel);
+        itemMeta.setDisplayName(NowDisPlayerName);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
 }

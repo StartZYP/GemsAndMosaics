@@ -1,7 +1,27 @@
 GemsAndMosaics:
-  MosaicPaper:
-    DarkKey: "阴钥"
-    LightKey: "阳匙"
-    Balance: "均衡"
-  DecomposePaper: "分解符"
-  PerforatedPaper: "打孔符"
+  PaperItem:
+    MosaicPaper:
+      DarkKey: "阴钥"
+      LightKey: "阳匙"
+      Balance: "均衡"
+    DecomposePaper: "分解符"
+    PerforatedPaper: "打孔符"
+  Gems:
+    Quality:
+      - "劣质"
+      - "优秀"
+      - "史诗"
+    attribute:
+      - "移动速度"
+      - "攻击力"
+BaseConfig:
+  CheckStartLine: "=====花花镶嵌====="
+  CheckEndLine: "=====镶嵌结束====="
+Items:
+  Item1:
+    DisPlayName: "速度宝石 劣质 IX级"
+    Id: 337
+    Lore:
+      - "[物品类型] 宝石"
+      - "移动速度+60%"
+      - "说明:这个宝石从天上来"
