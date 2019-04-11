@@ -18,7 +18,6 @@ public class Main extends JavaPlugin {
     public static DecomposePaper decomposePaper;
     public static List<String> GemsLevelInfo = new ArrayList<>();
     public static List<String> attribute = new ArrayList<>();
-
     @Override
     public void onEnable() {
         Bukkit.getServer().getPluginManager().registerEvents(new ListenerMain(),this);

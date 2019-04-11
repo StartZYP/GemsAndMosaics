@@ -1,6 +1,5 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Util;
 
-import org.junit.Test;
 
 public class Transformation {
     /**
