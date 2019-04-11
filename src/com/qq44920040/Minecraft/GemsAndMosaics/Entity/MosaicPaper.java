@@ -16,13 +16,14 @@ public class MosaicPaper {
         MosaicPaperLoreKey = mosaicPaperLoreKey;
     }
 
-    public String MosaicPaperLoreKey;
+    String MosaicPaperLoreKey;
+    int LevelUpNeedNum =10;
     @Override
     public boolean equals(Object object){
         if (object!=null){
             if (object instanceof ItemStack){
                 ItemStack item = (ItemStack) object;
-                if (item.hasItemMeta()){
+                if (item.getAmount()>=LevelUpNeedNum&&item.hasItemMeta()){
                     ItemMeta itemMeta = item.getItemMeta();
                     if (itemMeta.hasDisplayName()){
                         return itemMeta.getDisplayName().contains(MosaicPaperLoreKey);
