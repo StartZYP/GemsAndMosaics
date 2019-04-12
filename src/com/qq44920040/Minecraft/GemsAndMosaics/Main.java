@@ -18,6 +18,8 @@ public class Main extends JavaPlugin {
     public static DecomposePaper decomposePaper;
     public static List<String> GemsLevelInfo = new ArrayList<>();
     public static List<String> attribute = new ArrayList<>();
+    public static String StartLine;
+    public static String EndLine;
     @Override
     public void onEnable() {
         Bukkit.getServer().getPluginManager().registerEvents(new ListenerMain(),this);
@@ -40,6 +42,8 @@ public class Main extends JavaPlugin {
         decomposePaper = new DecomposePaper(getConfig().getString("GemsAndMosaics.PaperItem.DecomposePaper"));
         GemsLevelInfo = getConfig().getStringList("GemsAndMosaics.Gems.Quality");
         attribute = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
+        EndLine = getConfig().getString("BaseConfig.CheckEndLine");
+        StartLine = getConfig().getString("BaseConfig.CheckStartLine");
     }
 
     @Override
