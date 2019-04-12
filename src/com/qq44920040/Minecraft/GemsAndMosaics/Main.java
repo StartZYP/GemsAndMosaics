@@ -1,6 +1,7 @@
 package com.qq44920040.Minecraft.GemsAndMosaics;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.DecomposePaper;
+import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Listener.ListenerMain;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ import java.util.Set;
 public class Main extends JavaPlugin {
     public static List<MosaicPaper> MosaicList=new ArrayList<>();
     public static DecomposePaper decomposePaper;
+    public static Gems gems = new Gems();
     public static List<String> GemsLevelInfo = new ArrayList<>();
     public static List<String> attribute = new ArrayList<>();
     public static String StartLine;

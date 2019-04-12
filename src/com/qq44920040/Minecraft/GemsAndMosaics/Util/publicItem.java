@@ -53,4 +53,7 @@ public class publicItem {
     public static String GetGemsattribute(List<String> GemLore){
         return GemLore.get(1);
     }
+
+
+
 }

@@ -30,6 +30,9 @@ public class ListenerMain implements Listener {
                     }
                 }
             }
+            if (Main.gems.equals(itemStack)){
+
+            }
         }
     }
 }
