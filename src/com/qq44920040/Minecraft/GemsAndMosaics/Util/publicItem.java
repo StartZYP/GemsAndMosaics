@@ -1,8 +1,11 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Util;
 
+import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class publicItem {
@@ -20,10 +23,10 @@ public class publicItem {
 
     public static boolean ItemCanUporDownLevel(ItemStack itemStack){
         String DisPlayName = itemStack.getItemMeta().getDisplayName();
-        if (!Pattern.compile("(l?x{0,3}|x[lc])(v?i{0,3}|i[vx])$").matcher(DisPlayName).find()){
+        if (!Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).find()){
             return false;
         }
-        String Level = Pattern.compile("(l?x{0,3}|x[lc])(v?i{0,3}|i[vx])$").matcher(DisPlayName).group(0);
+        String Level = Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).group(0);
         if (Level!=null){
             int Levenumber = Transformation.r2a(Level);
             return Levenumber<ContsNumber.MaxGemsComposeLevel&&Levenumber>ContsNumber.MinGemsComposeLevel;
@@ -31,8 +34,23 @@ public class publicItem {
         return false;
     }
 
-    public static boolean EquipCanMosaic(ItemStack itemStack){
+    public static boolean EquipCanMosaic(List<String> itemStacklore) {
+        return itemStacklore.stream().filter(o -> o.contains(Main.EndLine) || o.contains(Main.StartLine)).count() == 2;
+    }
 
-        return false;
+    public static int EquipStartLineNumber(List<String> itemStacklore,Boolean IsStart){
+       return IsStart?itemStacklore.indexOf(Main.StartLine):itemStacklore.indexOf(Main.EndLine);
+    }
+
+    public static List<String> GetEquipLoreList(int StartLine,int Endline,List<String> lorelist){
+        List<String> MosaicLore = new ArrayList<>();
+        for (int i=StartLine;i<=Endline;i++){
+            MosaicLore.add(lorelist.get(i));
+        }
+        return MosaicLore;
+    }
+
+    public static String GetGemsattribute(List<String> GemLore){
+        return GemLore.get(1);
     }
 }

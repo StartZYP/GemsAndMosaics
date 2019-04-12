@@ -1,6 +1,7 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,7 +23,7 @@ public class Gems {
                         String lores = itemMeta.getLore().toString();
                         if (Main.GemsLevelInfo.stream().filter(str::contains).count()==1){
                             if (Main.attribute.stream().filter(lores::contains).count()==1){
-                                return Pattern.compile("(l?x{0,3}|x[lc])(v?i{0,3}|i[vx])$").matcher(str).find();
+                                return Pattern.compile(ContsNumber.RexNumber).matcher(str).find();
                             }
                         }
                     }
