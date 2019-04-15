@@ -1,34 +1,32 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 
 
+import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.security.Key;
 import java.util.regex.Pattern;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.Transformation;
 
 public class MosaicPaper {
-    public MosaicPaper(String mosaicPaperLoreKey) {
-        MosaicPaperLoreKey = mosaicPaperLoreKey;
-    }
 
-    String MosaicPaperLoreKey;
 
-    @Override
-    public boolean equals(Object object){
-        if (object!=null){
-            if (object instanceof ItemStack){
-                ItemStack item = (ItemStack) object;
-                if (item.getAmount()>=ContsNumber.MosaicPaperLevelUpNeedNum&&item.hasItemMeta()){
-                    ItemMeta itemMeta = item.getItemMeta();
+    public static boolean IsMosaicPaper(ItemStack itemStack){
+        if (itemStack!=null){
+                if (itemStack.getAmount()==1&&itemStack.hasItemMeta()){
+                    ItemMeta itemMeta = itemStack.getItemMeta();
                     if (itemMeta.hasDisplayName()){
-                        return itemMeta.getDisplayName().contains(MosaicPaperLoreKey);
+                        for (String key:Main.MosaicArrayKey){
+                            if (itemMeta.getDisplayName().contains(key)){
+                                return true;
+                            }
+                        }
                     }
                 }
-            }
         }
         return false;
     }

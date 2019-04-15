@@ -9,15 +9,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.regex.Pattern;
 
 public class Gems {
-    public static final int ComposeNum = 5;
 
-    @Override
-    public boolean equals(Object object){
-        if (object!=null){
-            if (object instanceof ItemStack){
-                ItemStack item = (ItemStack) object;
-                if (item.getAmount()>=ComposeNum&&item.hasItemMeta()){
-                    ItemMeta itemMeta = item.getItemMeta();
+    public static Boolean IsGems(ItemStack itemStack){
+        if (itemStack!=null){
+                if (itemStack.getAmount()>=1&&itemStack.hasItemMeta()){
+                    ItemMeta itemMeta = itemStack.getItemMeta();
                     if (itemMeta.hasLore()&&itemMeta.hasDisplayName()){
                         String str = itemMeta.getDisplayName();
                         String lores = itemMeta.getLore().toString();
@@ -28,7 +24,6 @@ public class Gems {
                         }
                     }
                 }
-            }
         }
         return false;
     }

@@ -15,13 +15,18 @@ import java.util.List;
 import java.util.Set;
 
 public class Main extends JavaPlugin {
-    public static List<MosaicPaper> MosaicList=new ArrayList<>();
-    public static DecomposePaper decomposePaper;
+    public static String[] MosaicArrayKey;
     public static Gems gems = new Gems();
     public static List<String> GemsLevelInfo = new ArrayList<>();
     public static List<String> attribute = new ArrayList<>();
     public static String StartLine;
     public static String EndLine;
+    public static String CheckSlotLore;
+    public static String[] SlotLore;
+    public static String PunchPaperKey;
+    public static String decomposePaperKey;
+    public static String ProtectPaperKey;
+    public static String DismantlePaperKey;
     @Override
     public void onEnable() {
         Bukkit.getServer().getPluginManager().registerEvents(new ListenerMain(),this);
@@ -38,14 +43,19 @@ public class Main extends JavaPlugin {
 
     private void ReloadConfig() {
         reloadConfig();
-        MosaicList.add(new MosaicPaper(getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.DarkKey")));
-        MosaicList.add(new MosaicPaper(getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.LightKey")));
-        MosaicList.add(new MosaicPaper(getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.Balance")));
-        decomposePaper = new DecomposePaper(getConfig().getString("GemsAndMosaics.PaperItem.DecomposePaper"));
+        MosaicArrayKey = new String[]{getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.DarkKey"),getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.LightKey"),getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.Balance")};
+
+        PunchPaperKey = getConfig().getString("GemsAndMosaics.PaperItem.PerforatedPaper");
+        decomposePaperKey =getConfig().getString("GemsAndMosaics.PaperItem.DecomposePaper");
+        ProtectPaperKey = getConfig().getString("GemsAndMosaics.PaperItem.ProtectPaper");
+        DismantlePaperKey = getConfig().getString("GemsAndMosaics.PaperItem.DismantlePaper");
         GemsLevelInfo = getConfig().getStringList("GemsAndMosaics.Gems.Quality");
         attribute = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
         EndLine = getConfig().getString("BaseConfig.CheckEndLine");
         StartLine = getConfig().getString("BaseConfig.CheckStartLine");
+        CheckSlotLore = getConfig().getString("BaseConfig.CheckSlotLore");
+        SlotLore = new String[]{getConfig().getString("BaseConfig.DarkSlotLore"),getConfig().getString("BaseConfig.LightSlotLore"),getConfig().getString("BaseConfig.BalanceSlotLore")};
+
     }
 
     @Override

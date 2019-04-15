@@ -19,8 +19,7 @@ public class ListenerMain implements Listener {
         Player player = event.getPlayer();
         ItemStack itemStack = player.getItemInHand();
         if (itemStack!=null&&itemStack.getType()!= Material.AIR){
-            for (MosaicPaper mosaicPaper: Main.MosaicList){
-                if (mosaicPaper.equals(itemStack)){
+                if (MosaicPaper.IsMosaicPaper(itemStack)){
                     if (publicItem.ItemCanUporDownLevel(itemStack)){
                         publicItem.TakeComposeItem(player,itemStack,ContsNumber.MosaicPaperLevelUpNeedNum);
                         player.getInventory().addItem(MosaicPaper.UpMosaicPaper(itemStack));
@@ -29,10 +28,7 @@ public class ListenerMain implements Listener {
                         player.sendMessage("你的物品等级貌似超出或小了");
                     }
                 }
-            }
-            if (Main.gems.equals(itemStack)){
-
-            }
         }
     }
+
 }
