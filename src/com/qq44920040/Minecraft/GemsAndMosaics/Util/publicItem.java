@@ -23,6 +23,22 @@ public class publicItem {
             player.getInventory().addItem(itemStack);
         }
     }
+    //获取物品等级
+    public static int GetItemLevel(ItemStack itemStack){
+        String DisPlayName = itemStack.getItemMeta().getDisplayName();
+        String Level = Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).group(0);
+        return Transformation.r2a(Level);
+    }
+    //获取物品品质
+    public static String GetItemAttribute(ItemStack itemStack){
+        String keystr = itemStack.getItemMeta().getDisplayName();
+        for (String str:Main.GemsLevelQuality){
+            if (keystr.contains(str)){
+                return str;
+            }
+        }
+        return "";
+    }
     //物品能继续升级
     public static boolean ItemCanUporDownLevel(ItemStack itemStack){
         String DisPlayName = itemStack.getItemMeta().getDisplayName();

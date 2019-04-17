@@ -1,6 +1,7 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Listener;
 
 
+import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import org.bukkit.Material;
@@ -54,14 +55,30 @@ public class ListenerMain implements Listener {
                         itemStackList.add(itemStack);
                     }
                 }
-                if (itemStackList.size()==5){
-                    
+                if (itemStackList.size()==ContsNumber.GemsNumberCompose){
+                    if (itemStackList.stream().filter(Gems::IsGems).count()==ContsNumber.GemsNumberCompose){
+                        int level = publicItem.GetItemLevel(itemStackList.get(0));
+                        if (itemStackList.stream().filter(o->publicItem.GetItemLevel(o)==level).count()==ContsNumber.GemsNumberCompose){
+                            String attribute = publicItem.GetItemAttribute(itemStackList.get(0));
+                            if (itemStackList.stream().filter(item->attribute.equalsIgnoreCase(item.getItemMeta().getDisplayName())).count()==ContsNumber.GemsNumberCompose){
+                                //这是宝石都是统一品质等级
+                            }else {
+                                //这是宝石有一种是非同一品质丢
+                                player.sendMessage("");
+                            }
+                        }else {
+                            player.sendMessage("你放置丢宝石等级不统一");
+                        }
+                    }else {
+                        player.sendMessage("你放置的宝石有类型不对");
+                    }
                 }else {
                     player.sendMessage("你放置的宝石貌似不够5个");
                 }
             }
             //TODU
         }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
+
 
         }
 
