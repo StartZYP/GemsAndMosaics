@@ -36,6 +36,9 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player&&label.equalsIgnoreCase("gams")){
+
+        }
         return super.onCommand(sender, command, label, args);
     }
 

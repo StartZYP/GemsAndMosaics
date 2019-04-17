@@ -87,5 +87,9 @@ public class publicItem {
         return itemStack;
     }
 
+    //给物品添加孔位镶嵌宝石丢NBT属性
+    public static ItemStack AddItemGemsattributeNBT(ItemStack itemStack,int GemsLevel,String Quality,String Attribute){
+        return NbtGetSet.SetItemData(Attribute,GemsLevel+":"+Quality,itemStack);
+    }
 
 }

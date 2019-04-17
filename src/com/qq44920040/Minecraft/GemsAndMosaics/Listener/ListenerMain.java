@@ -7,11 +7,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.publicItem;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListenerMain implements Listener {
     @EventHandler
@@ -31,4 +36,34 @@ public class ListenerMain implements Listener {
         }
     }
 
+    @EventHandler
+    public void InventoryClickEvent(InventoryClickEvent event){
+        Inventory Inventory = event.getClickedInventory();
+        String invtitle = Inventory.getTitle();
+        Player player = (Player) event.getWhoClicked();
+        if (invtitle.equalsIgnoreCase(ContsNumber.GemsComposeGuiTitle)){
+            int slot = event.getSlot();
+            if (!(slot>=10&&slot<=14)){
+                event.setCancelled(true);
+            }
+            if (slot==15){
+                List<ItemStack> itemStackList = new ArrayList<>();
+                for (int i=10;i<14;i++){
+                    ItemStack itemStack = Inventory.getItem(i);
+                    if (itemStack!=null){
+                        itemStackList.add(itemStack);
+                    }
+                }
+                if (itemStackList.size()==5){
+                    
+                }else {
+                    player.sendMessage("你放置的宝石貌似不够5个");
+                }
+            }
+            //TODU
+        }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
+
+        }
+
+    }
 }
