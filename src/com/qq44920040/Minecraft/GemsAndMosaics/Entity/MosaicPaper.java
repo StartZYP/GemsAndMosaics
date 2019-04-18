@@ -2,11 +2,14 @@ package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.security.Key;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
@@ -31,6 +34,14 @@ public class MosaicPaper {
         return false;
     }
 
+    public static ItemStack MakeMosaicPaper(int Level){
+        ItemStack itemStack = new ItemStack(Material.BARRIER);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("打孔符等级:"+Transformation.a2r(Level));
+        itemMeta.setLore(Arrays.asList("这是打孔符","这是他的lore"));
+        itemStack.setItemMeta(itemMeta);
+        return NbtGetSet.SetItemData("MosaicPaper",String.valueOf(Level),itemStack);
+    }
 
     public static ItemStack UpMosaicPaper(ItemStack itemStack){
         itemStack.setAmount(1);

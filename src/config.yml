@@ -6,16 +6,15 @@ GemsAndMosaics:
       Balance: "均衡"
     DecomposePaper: "分解符"
     PerforatedPaper: "打孔符"
-    ProtectPaper: "保护符"
     DismantlePaper: "拆除符"
   Gems:
     Quality:
       - "劣质"
       - "优秀"
       - "史诗"
-    attribute:
-      - "移动速度"
-      - "攻击力"
+    Baseattribute:
+      - "移动速度|+43%"
+      - "攻击力|+4343-536"
 BaseConfig:
   CheckStartLine: "=====花花镶嵌====="
   CheckSlotLore: "未打孔"

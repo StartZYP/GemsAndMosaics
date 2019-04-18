@@ -13,19 +13,27 @@ public class NbtGetSet {
     public static ItemStack SetItemData(String Key,String Vaule, ItemStack itemStack){
         net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound compound = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
-        compound.set(Key, new NBTTagString(Vaule));
-        nmsItem.setTag(compound);
-        ItemStack hasNBTItem = CraftItemStack.asBukkitCopy(nmsItem);
-        return hasNBTItem;
+        try{
+            compound.set(Key, new NBTTagString(Vaule));
+            nmsItem.setTag(compound);
+            ItemStack hasNBTItem = CraftItemStack.asBukkitCopy(nmsItem);
+            return hasNBTItem;
+        }catch (NullPointerException e){
+            return null;
+        }
     }
 
     public static String GetItemDate(String key,ItemStack itemStack){
         net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(itemStack);
         if (nmsItem.hasTag()){
             NBTTagCompound compound = nmsItem.getTag();
-            return compound.getString(key);
+            try{
+                return compound.getString(key);
+            }catch (NullPointerException e){
+                return null;
+            }
         }
-        return "";
+        return null;
     }
 
 }

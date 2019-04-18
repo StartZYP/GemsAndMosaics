@@ -19,7 +19,7 @@ public class Main extends JavaPlugin {
     public static String[] MosaicArrayKey;
     public static Gems gems = new Gems();
     public static List<String> GemsLevelQuality = new ArrayList<>();
-    public static List<String> Gemsattribute = new ArrayList<>();
+    public static HashMap<String,String> Gemsattribute = new HashMap<>();
     public static String StartLine;
     public static String EndLine;
     public static String CheckSlotLore;
@@ -37,8 +37,24 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player &&label.equalsIgnoreCase("gams")){
-
+        if (sender instanceof Player &&label.equalsIgnoreCase("GAMS")){
+            if (args.length==5&&args[0].equalsIgnoreCase("give")){
+                if (args[1].equalsIgnoreCase("gems")&&args[2].matches("^(10|11|12|13|[1-9])$")&&Main.GemsLevelQuality.contains(args[3])&&Main.Gemsattribute.containsKey(args[4])){
+                    //生成宝石
+                    ((Player) sender).getInventory().addItem(Gems.MakeGems(Integer.valueOf(args[2]),args[3],args[4]));
+                }else {
+                    sender.sendMessage("参数不正确");
+                }
+            }else if (args.length==3&&args[0].equalsIgnoreCase("give")){
+                if (args[1].equalsIgnoreCase("Mosaic")&&args[2].matches("^(10|11|12|13|[1-9])$")){
+                    //给一个打孔符
+                    ((Player) sender).getInventory().addItem(MosaicPaper.MakeMosaicPaper(Integer.valueOf(args[2])));
+                }else {
+                    sender.sendMessage("参数不正确");
+                }
+            }else if (args.length==2&&args[0].equalsIgnoreCase("give")&&args[1].equalsIgnoreCase("Punch")){
+                
+            }
         }
         return super.onCommand(sender, command, label, args);
     }
@@ -53,7 +69,11 @@ public class Main extends JavaPlugin {
         ProtectPaperKey = getConfig().getString("GemsAndMosaics.PaperItem.ProtectPaper");
         DismantlePaperKey = getConfig().getString("GemsAndMosaics.PaperItem.DismantlePaper");
         GemsLevelQuality = getConfig().getStringList("GemsAndMosaics.Gems.Quality");
-        Gemsattribute = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
+        List<String> attributesmap = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
+        for (String temp : attributesmap) {
+            String[] arraystr = temp.split("\\|");
+            Gemsattribute.put(arraystr[0],arraystr[1]);
+        }
         EndLine = getConfig().getString("BaseConfig.CheckEndLine");
         StartLine = getConfig().getString("BaseConfig.CheckStartLine");
         CheckSlotLore = getConfig().getString("BaseConfig.CheckSlotLore");

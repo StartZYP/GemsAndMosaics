@@ -62,9 +62,9 @@ public class ListenerMain implements Listener {
                             String GemsLevelQuality = publicItem.GetItemGemsLevelQuality(itemStackList.get(0));
                             if (itemStackList.stream().filter(item->GemsLevelQuality.equalsIgnoreCase(item.getItemMeta().getDisplayName())).count()==ContsNumber.GemsNumberCompose){
                                 //这是宝石都是统一品质等级
-                                Gems.GemsUpLevel(itemStackList.get(0),level,true);
+                                Gems.GemsUpLevelOrTakeLevel(itemStackList.get(0),level,true);
                             }else {
-                                Gems.GemsUpLevel(itemStackList.get(0),level,false);
+                                Gems.GemsUpLevelOrTakeLevel(itemStackList.get(0),level,false);
                                 //这是宝石有一种是非同一品质丢
                             }
                         }else {
