@@ -3,7 +3,7 @@ package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.Transformation;
-import org.bukkit.entity.Player;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.publicItem;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,7 +30,11 @@ public class Gems {
         return false;
     }
 
-    public static ItemStack GemsUpLevel(ItemStack itemStack,int GemsLevel,Boolean IsLikeLevel){
+    public static List<Integer> GemsCalculateVaultAddOrTake(List<Integer> Value,Boolean IsAdd){
+        return Value;
+    }
+
+    public static ItemStack GemsUpLevelOrTakeLevel(ItemStack itemStack,int GemsLevel,Boolean IsLikeLevel){
         String strlevel = Transformation.a2r(GemsLevel);
         ItemMeta itemMeta = itemStack.getItemMeta();
         List<String> lores = itemMeta.getLore();
@@ -38,8 +42,12 @@ public class Gems {
         displayer = displayer.replace(strlevel,Transformation.a2r(GemsLevel+1));
         String GemsAttribute = lores.get(ContsNumber.GemsAttributeLine);
         if (GemsAttribute.contains("%")){
+            List<Integer> item = publicItem.GetItemVaultNumber(GemsAttribute);
             //宝石有百分比
         }else {
+            List<Integer> item = publicItem.GetItemVaultNumber(GemsAttribute);
+
+            publicItem.GetItemVaultNumber(GemsAttribute);
             //宝石无百分比
         }
         return itemStack;

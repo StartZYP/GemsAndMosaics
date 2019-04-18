@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class publicItem {
@@ -51,6 +52,16 @@ public class publicItem {
             return Levenumber<ContsNumber.MaxGemsComposeLevel&&Levenumber>ContsNumber.MinGemsComposeLevel;
         }
         return false;
+    }
+    //取装备物品lore上的属性数值
+    public static List<Integer> GetItemVaultNumber(String itemattbut){
+        Pattern p = Pattern.compile("\\d*");
+        Matcher m = p.matcher(itemattbut);
+        List<Integer> list = new ArrayList<>();
+        while (m.find()){
+            list.add(Integer.parseInt(m.group()));
+        }
+        return list;
     }
     //判断一个装备是否符合
     public static boolean EquipCanMosaic(List<String> itemStacklore) {

@@ -80,7 +80,6 @@ public class ListenerMain implements Listener {
             //TODU
         }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
 
-
         }
 
     }
