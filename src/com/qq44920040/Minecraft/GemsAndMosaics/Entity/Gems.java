@@ -25,6 +25,12 @@ public class Gems {
         return false;
     }
     public static ItemStack MakeGems(int Level,String Quality,String Attribute){
+        if (Attribute.contains("%")){
+            List<Integer> list = publicItem.GetItemVaultNumber(Main.Gemsattribute.get(Attribute));
+
+        }else {
+
+        }
         ItemStack itemGems = new ItemStack(Material.BREAD);
         ItemMeta itemMeta = itemGems.getItemMeta();
         itemMeta.setDisplayName("宝石等级:"+Transformation.a2r(Level)+"宝石品质:"+Quality);
@@ -34,11 +40,6 @@ public class Gems {
         itemGems = NbtGetSet.SetItemData("GemQuality",Quality,itemGems);
         itemGems = NbtGetSet.SetItemData("Attribute",Attribute,itemGems);
         return itemGems;
-    }
-
-    public static List<Integer> GemsCalculateVaultAddOrTake(List<Integer> Value,int Level,Boolean IsAdd){
-
-        return Value;
     }
 
     public static ItemStack GemsUpLevelOrTakeLevel(ItemStack itemStack,int GemsLevel,Boolean IsLikeQuality,Boolean IsLevelUp){
@@ -75,3 +76,25 @@ public class Gems {
         return itemStack;
     }
 }
+
+
+//宝石数值类增幅：
+//        取宝石等级配置项: xxxx-xxxxx
+//        再取宝石品质: 如优秀
+//        最终值 = 宝石等级配置项随机值*递增百分比0.3(因为优秀为第三个)+宝石等级配置项随机值
+//        如果属性为范围属性：
+//        则取两次最终值小在前大在后
+//        如果属性为单值：
+//        则取一次
+//        宝石百分比值增幅:
+//        取宝石等级配置项: xx%
+//        再取宝石品质: 如优秀
+//        最终值 = 宝石等级配置项值+宝石品质
+//
+//        自定义宝石：
+//        可以按照规范写即可
+//
+//
+//        镶嵌符有类型 阴钥 10张阴钥 才能升级更高
+//        II级镶嵌符可以镶嵌I II级宝石
+//        镶嵌的时候 宝石等级必须和镶嵌符等级一致才可以使用

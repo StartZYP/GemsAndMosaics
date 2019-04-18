@@ -18,29 +18,15 @@ import com.qq44920040.Minecraft.GemsAndMosaics.Util.Transformation;
 public class MosaicPaper {
 
 
-    public static boolean IsMosaicPaper(ItemStack itemStack){
-        if (itemStack!=null){
-                if (itemStack.getAmount()==1&&itemStack.hasItemMeta()){
-                    ItemMeta itemMeta = itemStack.getItemMeta();
-                    if (itemMeta.hasDisplayName()){
-                        for (String key:Main.MosaicArrayKey){
-                            if (itemMeta.getDisplayName().contains(key)){
-                                return true;
-                            }
-                        }
-                    }
-                }
-        }
-        return false;
-    }
 
-    public static ItemStack MakeMosaicPaper(int Level){
+    public static ItemStack MakeMosaicPaper(int Level,String Type){
         ItemStack itemStack = new ItemStack(Material.BARRIER);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName("打孔符等级:"+Transformation.a2r(Level));
+        itemMeta.setDisplayName("镶嵌符等级:"+Transformation.a2r(Level)+"镶嵌符:"+Type);
         itemMeta.setLore(Arrays.asList("这是打孔符","这是他的lore"));
         itemStack.setItemMeta(itemMeta);
-        return NbtGetSet.SetItemData("MosaicPaper",String.valueOf(Level),itemStack);
+        itemStack = NbtGetSet.SetItemData("MosaicLevel",String.valueOf(Level),itemStack);
+        return NbtGetSet.SetItemData("MosaicType",String.valueOf(Level),itemStack);
     }
 
     public static ItemStack UpMosaicPaper(ItemStack itemStack){

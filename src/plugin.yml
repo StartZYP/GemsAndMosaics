@@ -1,0 +1,6 @@
+name: GemsAndMosaics
+main: com.qq44920040.Minecraft.GemsAndMosaics.Main
+version: 1.0
+author: q44920040
+commands:
+  GAMS:

@@ -4,6 +4,7 @@ package com.qq44920040.Minecraft.GemsAndMosaics.Listener;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,8 @@ public class ListenerMain implements Listener {
         Player player = event.getPlayer();
         ItemStack itemStack = player.getItemInHand();
         if (itemStack!=null&&itemStack.getType()!= Material.AIR){
-                if (MosaicPaper.IsMosaicPaper(itemStack)){
+                if (NbtGetSet.GetItemDate("MosaicType",itemStack)!=null){
+
                     if (publicItem.ItemCanUporDownLevel(itemStack)){
                         publicItem.TakeComposeItem(player,itemStack,ContsNumber.MosaicPaperLevelUpNeedNum);
                         player.getInventory().addItem(MosaicPaper.UpMosaicPaper(itemStack));
@@ -40,16 +42,21 @@ public class ListenerMain implements Listener {
     @EventHandler
     public void InventoryClickEvent(InventoryClickEvent event){
         Inventory Inventory = event.getClickedInventory();
-        String invtitle = Inventory.getTitle();
+        String invtitle = "";
+        try{
+            invtitle = Inventory.getTitle();
+        }catch (NullPointerException e){
+        }
         Player player = (Player) event.getWhoClicked();
         if (invtitle.equalsIgnoreCase(ContsNumber.GemsComposeGuiTitle)){
             int slot = event.getSlot();
-            if (!(slot>=10&&slot<=14)){
+            System.out.println(slot);
+            if (slot>=0&&slot<=9||slot>=15&&slot<=26){
                 event.setCancelled(true);
             }
-            if (slot==15){
+            if (slot==16){
                 List<ItemStack> itemStackList = new ArrayList<>();
-                for (int i=10;i<14;i++){
+                for (int i=10;i<=14;i++){
                     ItemStack itemStack = Inventory.getItem(i);
                     if (itemStack!=null){
                         itemStackList.add(itemStack);
@@ -57,24 +64,23 @@ public class ListenerMain implements Listener {
                 }
                 if (itemStackList.size()==ContsNumber.GemsNumberCompose){
                     if (itemStackList.stream().filter(Gems::IsGems).count()==ContsNumber.GemsNumberCompose){
-                        int level = publicItem.GetItemLevel(itemStackList.get(0));
-                        if (itemStackList.stream().filter(o->publicItem.GetItemLevel(o)==level).count()==ContsNumber.GemsNumberCompose){
-                            String GemsLevelQuality = publicItem.GetItemGemsLevelQuality(itemStackList.get(0));
-                            if (itemStackList.stream().filter(item->GemsLevelQuality.equalsIgnoreCase(item.getItemMeta().getDisplayName())).count()==ContsNumber.GemsNumberCompose){
+                        System.out.println("有五个");
+                        String level = NbtGetSet.GetItemDate("GemLevel",itemStackList.get(0));
+                        if (itemStackList.stream().filter(o->NbtGetSet.GetItemDate("GemLevel",o).equalsIgnoreCase(level)).count()==ContsNumber.GemsNumberCompose){
+                            String GemQuality = NbtGetSet.GetItemDate("GemQuality",itemStackList.get(0));
+                            if (itemStackList.stream().filter(o->NbtGetSet.GetItemDate("GemQuality",o).equalsIgnoreCase(GemQuality)).count()==ContsNumber.GemsNumberCompose){
                                 //这是宝石都是统一品质等级
-                                Gems.GemsUpLevelOrTakeLevel(itemStackList.get(0),level,true);
+                                event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(Main.GemsLevelQuality.indexOf(GemQuality)+1),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
                             }else {
-                                Gems.GemsUpLevelOrTakeLevel(itemStackList.get(0),level,false);
                                 //这是宝石有一种是非同一品质丢
+                                event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(Main.GemsLevelQuality.indexOf(GemQuality)+1),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
                             }
                         }else {
                             player.sendMessage("你放置丢宝石等级不统一");
                         }
                     }else {
-                        player.sendMessage("你放置的宝石有类型不对");
+                        player.sendMessage("你放置的宝石貌似不够5个");
                     }
-                }else {
-                    player.sendMessage("你放置的宝石貌似不够5个");
                 }
             }
             //TODU

@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="GemsAndMosaics:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GemsAndMosaics_jar</output-path>
+    <root id="root">
+      <element id="archive" name="GemsAndMosaics.jar">
+        <element id="module-output" name="GemsAndMosaics" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,6 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Entity;
 
-import com.qq44920040.Minecraft.GemsAndMosaics.Main;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -12,20 +12,20 @@ public class PunchPaper {
     public static boolean IsPunchPaper(ItemStack itemStack){
         if (itemStack!=null){
                 if (itemStack.getAmount()== 1&&itemStack.hasItemMeta()){
-                    ItemMeta itemMeta = itemStack.getItemMeta();
-                    if (itemMeta.hasDisplayName()){
-                        return itemMeta.getDisplayName().contains(Main.PunchPaperKey);
-                    }
+                        return NbtGetSet.GetItemDate("PunchType",itemStack)!=null;
                 }
         }
         return false;
     }
-    public static ItemStack MakePunchPaper(){
+
+    public static ItemStack MakePunchPaper(String Type){
         ItemStack itemStack = new ItemStack(Material.BLAZE_ROD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName("打孔符类型:");
+        itemMeta.setDisplayName("打孔符类型:"+Type);
         itemMeta.setLore(Arrays.asList("打孔符","很牛逼的打孔符"));
         itemStack.setItemMeta(itemMeta);
-        return itemStack;
+        return NbtGetSet.SetItemData("PunchType",Type,itemStack);
     }
+
+
 }

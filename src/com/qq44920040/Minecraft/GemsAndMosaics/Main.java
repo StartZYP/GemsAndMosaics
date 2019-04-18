@@ -1,23 +1,19 @@
 package com.qq44920040.Minecraft.GemsAndMosaics;
 
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.DecomposePaper;
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
+import com.qq44920040.Minecraft.GemsAndMosaics.Entity.*;
 import com.qq44920040.Minecraft.GemsAndMosaics.Listener.ListenerMain;
+import com.qq44920040.Minecraft.GemsAndMosaics.View.PlayerUi;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 public class Main extends JavaPlugin {
-    public static String[] MosaicArrayKey;
-    public static Gems gems = new Gems();
+    public static List<String> TypeArrayKey;
     public static List<String> GemsLevelQuality = new ArrayList<>();
     public static HashMap<String,String> Gemsattribute = new HashMap<>();
     public static String StartLine;
@@ -30,6 +26,13 @@ public class Main extends JavaPlugin {
     public static String DismantlePaperKey;
     @Override
     public void onEnable() {
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdir();
+        }
+        File file = new File(getDataFolder(),"config.yml");
+        if (!file.exists()){
+            saveDefaultConfig();
+        }
         Bukkit.getServer().getPluginManager().registerEvents(new ListenerMain(),this);
         ReloadConfig();
         super.onEnable();
@@ -38,23 +41,34 @@ public class Main extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player &&label.equalsIgnoreCase("GAMS")){
-            if (args.length==5&&args[0].equalsIgnoreCase("give")){
-                if (args[1].equalsIgnoreCase("gems")&&args[2].matches("^(10|11|12|13|[1-9])$")&&Main.GemsLevelQuality.contains(args[3])&&Main.Gemsattribute.containsKey(args[4])){
-                    //生成宝石
-                    ((Player) sender).getInventory().addItem(Gems.MakeGems(Integer.valueOf(args[2]),args[3],args[4]));
-                }else {
-                    sender.sendMessage("参数不正确");
+            //op命令
+            if (sender.isOp()){
+                if (args.length==5&&args[0].equalsIgnoreCase("give")){
+                    if (args[1].equalsIgnoreCase("gems")&&args[2].matches("^(10|11|12|13|[1-9])$")&&Main.GemsLevelQuality.contains(args[3])&&Main.Gemsattribute.containsKey(args[4])){
+                        //生成宝石
+                        ((Player) sender).getInventory().addItem(Gems.MakeGems(Integer.valueOf(args[2]),args[3],args[4]));
+                    }
+                }else if (args.length==4&&args[0].equalsIgnoreCase("give")){
+                    if (args[1].equalsIgnoreCase("Mosaic")&&args[2].matches("^(10|11|12|13|[1-9])$")&&TypeArrayKey.contains(args[3])){
+                        //给一个镶嵌符
+                        ((Player) sender).getInventory().addItem(MosaicPaper.MakeMosaicPaper(Integer.valueOf(args[2]),args[3]));
+                    }
+                }else if (args.length==3&&args[0].equalsIgnoreCase("give")&&args[1].equalsIgnoreCase("Punch")&&TypeArrayKey.contains(args[2])){
+                    ((Player) sender).getInventory().addItem(PunchPaper.MakePunchPaper(args[2]));
+                }else if (args.length==2&&args[0].equalsIgnoreCase("give")){
+                    if (args[1].equalsIgnoreCase("Decompose")){
+                        ((Player) sender).getInventory().addItem(DecomposePaper.MakeDecomposePaper());
+                    }else if (args[1].equalsIgnoreCase("Dismantle")){
+                        ((Player) sender).getInventory().addItem(DismantlePaper.MakeDismantlePaper());
+                    }
                 }
-            }else if (args.length==3&&args[0].equalsIgnoreCase("give")){
-                if (args[1].equalsIgnoreCase("Mosaic")&&args[2].matches("^(10|11|12|13|[1-9])$")){
-                    //给一个打孔符
-                    ((Player) sender).getInventory().addItem(MosaicPaper.MakeMosaicPaper(Integer.valueOf(args[2])));
-                }else {
-                    sender.sendMessage("参数不正确");
-                }
-            }else if (args.length==2&&args[0].equalsIgnoreCase("give")&&args[1].equalsIgnoreCase("Punch")){
-                
+                sender.sendMessage("参数不对");
             }
+            //玩家命令
+            if (args.length==1&&args[0].equalsIgnoreCase("compose")){
+                ((Player) sender).openInventory(PlayerUi.PlayerOpenGamsGui());
+            }
+
         }
         return super.onCommand(sender, command, label, args);
     }
@@ -63,16 +77,15 @@ public class Main extends JavaPlugin {
 
     private void ReloadConfig() {
         reloadConfig();
-        MosaicArrayKey = new String[]{getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.DarkKey"),getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.LightKey"),getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.Balance")};
+        TypeArrayKey = Arrays.asList(getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.DarkKey"),getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.LightKey"),getConfig().getString("GemsAndMosaics.PaperItem.MosaicPaper.Balance"));
         PunchPaperKey = getConfig().getString("GemsAndMosaics.PaperItem.PerforatedPaper");
         decomposePaperKey =getConfig().getString("GemsAndMosaics.PaperItem.DecomposePaper");
         ProtectPaperKey = getConfig().getString("GemsAndMosaics.PaperItem.ProtectPaper");
         DismantlePaperKey = getConfig().getString("GemsAndMosaics.PaperItem.DismantlePaper");
         GemsLevelQuality = getConfig().getStringList("GemsAndMosaics.Gems.Quality");
-        List<String> attributesmap = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
+        List<String> attributesmap = getConfig().getStringList("GemsAndMosaics.Gems.Baseattribute");
         for (String temp : attributesmap) {
-            String[] arraystr = temp.split("\\|");
-            Gemsattribute.put(arraystr[0],arraystr[1]);
+            Gemsattribute.put(temp.split("\\|")[0],temp.split("\\|")[1]);
         }
         EndLine = getConfig().getString("BaseConfig.CheckEndLine");
         StartLine = getConfig().getString("BaseConfig.CheckStartLine");
