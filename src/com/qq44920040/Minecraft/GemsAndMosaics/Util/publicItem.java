@@ -30,7 +30,7 @@ public class publicItem {
         return Transformation.r2a(Level);
     }
     //获取物品品质
-    public static String GetItemAttribute(ItemStack itemStack){
+    public static String GetItemGemsLevelQuality(ItemStack itemStack){
         String keystr = itemStack.getItemMeta().getDisplayName();
         for (String str:Main.GemsLevelQuality){
             if (keystr.contains(str)){
@@ -52,7 +52,7 @@ public class publicItem {
         }
         return false;
     }
-    //判断一个装备是否可以强化
+    //判断一个装备是否符合
     public static boolean EquipCanMosaic(List<String> itemStacklore) {
         return itemStacklore.stream().filter(o -> o.contains(Main.EndLine) || o.contains(Main.StartLine)).count() == 2;
     }

@@ -59,12 +59,13 @@ public class ListenerMain implements Listener {
                     if (itemStackList.stream().filter(Gems::IsGems).count()==ContsNumber.GemsNumberCompose){
                         int level = publicItem.GetItemLevel(itemStackList.get(0));
                         if (itemStackList.stream().filter(o->publicItem.GetItemLevel(o)==level).count()==ContsNumber.GemsNumberCompose){
-                            String attribute = publicItem.GetItemAttribute(itemStackList.get(0));
-                            if (itemStackList.stream().filter(item->attribute.equalsIgnoreCase(item.getItemMeta().getDisplayName())).count()==ContsNumber.GemsNumberCompose){
+                            String GemsLevelQuality = publicItem.GetItemGemsLevelQuality(itemStackList.get(0));
+                            if (itemStackList.stream().filter(item->GemsLevelQuality.equalsIgnoreCase(item.getItemMeta().getDisplayName())).count()==ContsNumber.GemsNumberCompose){
                                 //这是宝石都是统一品质等级
+                                Gems.GemsUpLevel(itemStackList.get(0),level,true);
                             }else {
+                                Gems.GemsUpLevel(itemStackList.get(0),level,false);
                                 //这是宝石有一种是非同一品质丢
-                                player.sendMessage("");
                             }
                         }else {
                             player.sendMessage("你放置丢宝石等级不统一");

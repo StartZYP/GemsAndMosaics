@@ -14,4 +14,6 @@ public class ContsNumber {
     public static final String MosaicGuiTitle = "镶嵌界面";
     //宝石合成界面Title
     public static final String GemsComposeGuiTitle = "宝石合成界面";
+    //宝石的属性行
+    public static final int GemsAttributeLine = 1;
 }

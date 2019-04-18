@@ -19,7 +19,7 @@ public class Main extends JavaPlugin {
     public static String[] MosaicArrayKey;
     public static Gems gems = new Gems();
     public static List<String> GemsLevelQuality = new ArrayList<>();
-    public static List<String> attribute = new ArrayList<>();
+    public static List<String> Gemsattribute = new ArrayList<>();
     public static String StartLine;
     public static String EndLine;
     public static String CheckSlotLore;
@@ -53,7 +53,7 @@ public class Main extends JavaPlugin {
         ProtectPaperKey = getConfig().getString("GemsAndMosaics.PaperItem.ProtectPaper");
         DismantlePaperKey = getConfig().getString("GemsAndMosaics.PaperItem.DismantlePaper");
         GemsLevelQuality = getConfig().getStringList("GemsAndMosaics.Gems.Quality");
-        attribute = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
+        Gemsattribute = getConfig().getStringList("GemsAndMosaics.Gems.attribute");
         EndLine = getConfig().getString("BaseConfig.CheckEndLine");
         StartLine = getConfig().getString("BaseConfig.CheckStartLine");
         CheckSlotLore = getConfig().getString("BaseConfig.CheckSlotLore");
