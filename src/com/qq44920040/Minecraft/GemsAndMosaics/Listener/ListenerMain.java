@@ -19,6 +19,7 @@ import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ListenerMain implements Listener {
     @EventHandler
@@ -73,7 +74,7 @@ public class ListenerMain implements Listener {
                                 event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(Main.GemsLevelQuality.indexOf(GemQuality)+1),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
                             }else {
                                 //这是宝石有一种是非同一品质丢
-                                event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(Main.GemsLevelQuality.indexOf(GemQuality)+1),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
+                                event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(new Random().nextInt(Main.GemsLevelQuality.size())),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
                             }
                         }else {
                             player.sendMessage("你放置丢宝石等级不统一");
