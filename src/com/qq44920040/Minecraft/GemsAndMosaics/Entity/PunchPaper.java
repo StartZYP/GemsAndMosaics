@@ -27,5 +27,4 @@ public class PunchPaper {
         return NbtGetSet.SetItemData("PunchType",Type,itemStack);
     }
 
-
 }

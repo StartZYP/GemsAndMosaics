@@ -1,6 +1,7 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Listener;
 
 
+import com.qq44920040.Minecraft.GemsAndMosaics.Entity.DecomposePaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
@@ -28,13 +29,26 @@ public class ListenerMain implements Listener {
         ItemStack itemStack = player.getItemInHand();
         if (itemStack!=null&&itemStack.getType()!= Material.AIR){
                 if (NbtGetSet.GetItemDate("MosaicType",itemStack)!=null){
-
                     if (publicItem.ItemCanUporDownLevel(itemStack)){
                         publicItem.TakeComposeItem(player,itemStack,ContsNumber.MosaicPaperLevelUpNeedNum);
                         player.getInventory().addItem(MosaicPaper.UpMosaicPaper(itemStack));
                         player.sendMessage("合成镶嵌符成功");
                     }else {
                         player.sendMessage("你的物品等级貌似超出或小了");
+                    }
+                }else if (DecomposePaper.IsDecomposePaper(itemStack)&&Gems.GemsIsRange(itemStack)){
+                    Inventory inv = player.getInventory();
+                    ItemStack itemGem = inv.getItem(1);
+                    if (Gems.IsGems(itemGem)){
+                        String Level = NbtGetSet.GetItemDate("GemLevel",itemGem);
+                        int Levelnumbner = Integer.parseInt(Level)-1;
+                        String Attribute = NbtGetSet.GetItemDate("Attribute",itemGem);
+                        for (int i=0;i<=3;i++){
+                            inv.addItem(Gems.MakeGems(Levelnumbner,Main.GemsLevelQuality.get(new Random().nextInt(Main.GemsLevelQuality.size()-1)),Attribute));
+                        }
+                        player.setItemInHand(null);
+                    }else {
+                        player.sendMessage("请将1号位放上宝石，再使用分解符");
                     }
                 }
         }
@@ -67,14 +81,20 @@ public class ListenerMain implements Listener {
                     if (itemStackList.stream().filter(Gems::IsGems).count()==ContsNumber.GemsNumberCompose){
                         System.out.println("有五个");
                         String level = NbtGetSet.GetItemDate("GemLevel",itemStackList.get(0));
-                        if (itemStackList.stream().filter(o->NbtGetSet.GetItemDate("GemLevel",o).equalsIgnoreCase(level)).count()==ContsNumber.GemsNumberCompose){
+                        if (itemStackList.stream().filter(o->NbtGetSet.GetItemDate("GemLevel",o).equalsIgnoreCase(level)&&Gems.GemsIsRange(o)).count()==ContsNumber.GemsNumberCompose){
                             String GemQuality = NbtGetSet.GetItemDate("GemQuality",itemStackList.get(0));
                             if (itemStackList.stream().filter(o->NbtGetSet.GetItemDate("GemQuality",o).equalsIgnoreCase(GemQuality)).count()==ContsNumber.GemsNumberCompose){
                                 //这是宝石都是统一品质等级
                                 event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(Main.GemsLevelQuality.indexOf(GemQuality)+1),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
+                                for (int i=10;i<=14;i++){
+                                    Inventory.setItem(i,null);
+                                }
                             }else {
                                 //这是宝石有一种是非同一品质丢
                                 event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(new Random().nextInt(Main.GemsLevelQuality.size())),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
+                                for (int i=10;i<=14;i++){
+                                    Inventory.setItem(i,null);
+                                }
                             }
                         }else {
                             player.sendMessage("你放置丢宝石等级不统一");

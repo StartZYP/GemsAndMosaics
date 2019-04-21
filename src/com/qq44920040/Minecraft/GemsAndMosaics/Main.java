@@ -2,11 +2,15 @@ package com.qq44920040.Minecraft.GemsAndMosaics;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.*;
 import com.qq44920040.Minecraft.GemsAndMosaics.Listener.ListenerMain;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
+import com.qq44920040.Minecraft.GemsAndMosaics.Util.publicItem;
 import com.qq44920040.Minecraft.GemsAndMosaics.View.PlayerUi;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -61,6 +65,16 @@ public class Main extends JavaPlugin {
                     }else if (args[1].equalsIgnoreCase("Dismantle")){
                         ((Player) sender).getInventory().addItem(DismantlePaper.MakeDismantlePaper());
                     }
+                }else if (args.length==1&&args[0].equalsIgnoreCase("set")){
+                    ItemStack itemInHand = ((Player) sender).getItemInHand();
+                    if (itemInHand!=null){
+                        itemInHand = NbtGetSet.SetItemData("yin","null",publicItem.AddItemUpDownLine(itemInHand));
+                        itemInHand = NbtGetSet.SetItemData("yang","null",itemInHand);
+                        itemInHand = NbtGetSet.SetItemData("jun","null",itemInHand);
+                        ((Player) sender).setItemInHand(itemInHand);
+                    }else {
+                        sender.sendMessage("你手上没有装备物品，无法进行开启");
+                    }
                 }
                 sender.sendMessage("参数不对");
             }
@@ -91,7 +105,6 @@ public class Main extends JavaPlugin {
         StartLine = getConfig().getString("BaseConfig.CheckStartLine");
         CheckSlotLore = getConfig().getString("BaseConfig.CheckSlotLore");
         SlotLore = new String[]{getConfig().getString("BaseConfig.DarkSlotLore"),getConfig().getString("BaseConfig.LightSlotLore"),getConfig().getString("BaseConfig.BalanceSlotLore")};
-
     }
 
     @Override

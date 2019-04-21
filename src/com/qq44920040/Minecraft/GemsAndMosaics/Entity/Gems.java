@@ -20,6 +20,12 @@ public class Gems {
         }
         return false;
     }
+
+    public static boolean GemsIsRange(ItemStack itemStack){
+        int LevelNumber = Integer.parseInt(NbtGetSet.GetItemDate("GemLevel",itemStack));
+        return LevelNumber>=1&&LevelNumber<=12;
+    }
+
     public static ItemStack MakeGems(int Level,String Quality,String Attribute){
         String Attributevalue = Main.Gemsattribute.get(Attribute);
         if (Attribute.contains("%")){

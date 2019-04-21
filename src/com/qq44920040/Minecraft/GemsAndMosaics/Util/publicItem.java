@@ -24,48 +24,20 @@ public class publicItem {
             player.getInventory().addItem(itemStack);
         }
     }
-    //获取物品等级
-    public static int GetItemLevel(ItemStack itemStack){
-        String DisPlayName = itemStack.getItemMeta().getDisplayName();
-        String Level = Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).group(0);
-        return Transformation.r2a(Level);
-    }
-    //获取物品品质
-    public static String GetItemGemsLevelQuality(ItemStack itemStack){
-        String keystr = itemStack.getItemMeta().getDisplayName();
-        for (String str:Main.GemsLevelQuality){
-            if (keystr.contains(str)){
-                return str;
-            }
-        }
-        return "";
-    }
-    //物品能继续升级
-    public static boolean ItemCanUporDownLevel(ItemStack itemStack){
-        String DisPlayName = itemStack.getItemMeta().getDisplayName();
-        if (!Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).find()){
-            return false;
-        }
-        String Level = Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).group(0);
-        if (Level!=null){
-            int Levenumber = Transformation.r2a(Level);
-            return Levenumber<ContsNumber.MaxGemsComposeLevel&&Levenumber>ContsNumber.MinGemsComposeLevel;
-        }
-        return false;
-    }
-    //取装备物品lore上的属性数值
-    public static List<Integer> GetItemVaultNumber(String itemattbut){
-        Pattern p = Pattern.compile("\\d*");
-        Matcher m = p.matcher(itemattbut);
-        List<Integer> list = new ArrayList<>();
-        while (m.find()){
-            list.add(Integer.parseInt(m.group()));
-        }
-        return list;
-    }
+
     //判断一个装备是否符合
     public static boolean EquipCanMosaic(List<String> itemStacklore) {
         return itemStacklore.stream().filter(o -> o.contains(Main.EndLine) || o.contains(Main.StartLine)).count() == 2;
+    }
+    //给装备开启空位
+    public static List<String> EquipOpenPunch(int startline,int Type,List<String> lores){
+        if (Type==1){
+            //阴孔
+            lores.set(startline+1,Main.CheckSlotLore);
+        }else if (Type==2){
+            //阳孔
+        }
+        return lores;
     }
     //得到装备的开始行数和结束行数
     public static int EquipStartLineNumber(List<String> itemStacklore,Boolean IsStart){
@@ -92,11 +64,11 @@ public class publicItem {
                 lorelist.add(Main.StartLine);
                 lorelist.add(Main.CheckSlotLore);
                 lorelist.add(Main.CheckSlotLore);
-                lorelist.add(Main.CheckSlotLore);
+                lorelist.add(Main.SlotLore[2]);
                 lorelist.add(Main.EndLine);
                 itemMeta.setLore(lorelist);
             }else {
-                List<String> lorelist = Arrays.asList(Main.StartLine,Main.CheckSlotLore,Main.CheckSlotLore,Main.EndLine);
+                List<String> lorelist = Arrays.asList(Main.StartLine,Main.CheckSlotLore,Main.CheckSlotLore,Main.SlotLore[2],Main.EndLine);
                 itemMeta.setLore(lorelist);
             }
             itemStack.setItemMeta(itemMeta);
