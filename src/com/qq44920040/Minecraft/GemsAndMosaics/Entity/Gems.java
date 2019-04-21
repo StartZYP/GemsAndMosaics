@@ -22,11 +22,11 @@ public class Gems {
     }
     public static ItemStack MakeGems(int Level,String Quality,String Attribute){
         String Attributevalue = Main.Gemsattribute.get(Attribute);
-        if (Attribute.contains("%")){
+        if (Attributevalue.contains("%")){
             List<Integer> list = publicItem.GetItemVaultNumber(Attributevalue);
-            double value = (double) Main.GemsLevelQuality.indexOf(Quality)/10 + (double)Level/10;
+            double value = (double) Main.GemsLevelQuality.indexOf(Quality) + (double)Level;
             for (int s:list){
-                Attributevalue = Attributevalue.replace(String.valueOf(s),String.valueOf((int)value));
+                Attributevalue = Attributevalue.replace(String.valueOf(s),String.valueOf((int)value+s));
             }
         }else {
             List<Integer> list = publicItem.GetItemVaultNumber(Attributevalue);
@@ -46,8 +46,6 @@ public class Gems {
         itemGems = NbtGetSet.SetItemData("Attribute",Attribute,itemGems);
         return itemGems;
     }
-
-
 }
 
 

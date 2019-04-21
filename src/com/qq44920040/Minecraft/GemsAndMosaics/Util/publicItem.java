@@ -55,14 +55,17 @@ public class publicItem {
     }
     //取装备物品lore上的属性数值
     public static List<Integer> GetItemVaultNumber(String itemattbut){
-        Pattern p = Pattern.compile("\\d*");
-        Matcher m = p.matcher(itemattbut);
-        List<Integer> list = new ArrayList<>();
-        while (m.find()){
-            list.add(Integer.parseInt(m.group()));
+
+        List<Integer> ss = new ArrayList<>();
+        for(String sss:itemattbut.replaceAll("[^0-9]", ",").split(",")){
+            if (sss.length()>0)
+                ss.add(Integer.parseInt(sss));
         }
-        return list;
+
+        return ss;
     }
+
+
     //判断一个装备是否符合
     public static boolean EquipCanMosaic(List<String> itemStacklore) {
         return itemStacklore.stream().filter(o -> o.contains(Main.EndLine) || o.contains(Main.StartLine)).count() == 2;
