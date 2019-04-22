@@ -55,13 +55,12 @@ public class publicItem {
     }
     //取装备物品lore上的属性数值
     public static List<Integer> GetItemVaultNumber(String itemattbut){
-        Pattern p = Pattern.compile("\\d*");
-        Matcher m = p.matcher(itemattbut);
-        List<Integer> list = new ArrayList<>();
-        while (m.find()){
-            list.add(Integer.parseInt(m.group()));
+        List<Integer> ss = new ArrayList<>();
+        for(String sss:itemattbut.replaceAll("[^0-9]", ",").split(",")){
+            if (sss.length()>0)
+                ss.add(Integer.parseInt(sss));
         }
-        return list;
+        return ss;
     }
     //判断一个装备是否符合
     public static boolean EquipCanMosaic(List<String> itemStacklore) {
@@ -85,24 +84,21 @@ public class publicItem {
     }
     //给物品添加镶嵌上下格式
     public static ItemStack AddItemUpDownLine(ItemStack itemStack){
-        if (itemStack.hasItemMeta()){
             ItemMeta itemMeta = itemStack.getItemMeta();
             if (itemMeta.hasLore()){
                 List<String> lorelist = itemMeta.getLore();
                 lorelist.add(Main.StartLine);
                 lorelist.add(Main.CheckSlotLore);
                 lorelist.add(Main.CheckSlotLore);
-                lorelist.add(Main.CheckSlotLore);
+                lorelist.add(Main.SlotLore[2]);
                 lorelist.add(Main.EndLine);
                 itemMeta.setLore(lorelist);
             }else {
-                List<String> lorelist = Arrays.asList(Main.StartLine,Main.CheckSlotLore,Main.CheckSlotLore,Main.EndLine);
+                List<String> lorelist = Arrays.asList(Main.StartLine,Main.CheckSlotLore,Main.CheckSlotLore,Main.SlotLore[2],Main.EndLine);
                 itemMeta.setLore(lorelist);
             }
             itemStack.setItemMeta(itemMeta);
             return itemStack;
-        }
-        return itemStack;
     }
     //给物品添加各种孔
     public static ItemStack AddPunch(ItemStack itemStack,int RepalceLine,String PunchLore){

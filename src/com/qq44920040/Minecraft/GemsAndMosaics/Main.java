@@ -81,8 +81,9 @@ public class Main extends JavaPlugin {
             //玩家命令
             if (args.length==1&&args[0].equalsIgnoreCase("compose")){
                 ((Player) sender).openInventory(PlayerUi.PlayerOpenGamsGui());
+            }else if (args.length==1&&args[0].equalsIgnoreCase("open")){
+                ((Player) sender).openInventory(PlayerUi.PlayerOpenMosaicGui());
             }
-
         }
         return super.onCommand(sender, command, label, args);
     }
