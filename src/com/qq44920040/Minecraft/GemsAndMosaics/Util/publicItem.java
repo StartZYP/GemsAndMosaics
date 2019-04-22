@@ -50,18 +50,19 @@ public class publicItem {
     public static boolean EquipCanMosaic(List<String> itemStacklore) {
         return itemStacklore.stream().filter(o -> o.contains(Main.EndLine) || o.contains(Main.StartLine)).count() == 2;
     }
-    //得到装备的开始行数和结束行数
+    //得到装备的开始行数
     public static int EquipStartLineNumber(List<String> itemStacklore,Boolean IsStart){
        return IsStart?itemStacklore.indexOf(Main.StartLine):itemStacklore.indexOf(Main.EndLine);
     }
     //得到装备Lore行的List集合
-    public static List<String> GetEquipLoreList(int StartLine,int Endline,List<String> lorelist){
+    public static List<String> GetEquipLoreList(int StartLine,List<String> lorelist){
         List<String> MosaicLore = new ArrayList<>();
-        for (int i=StartLine;i<=Endline;i++){
+        for (int i=StartLine;i<=StartLine+4;i++){
             MosaicLore.add(lorelist.get(i));
         }
         return MosaicLore;
     }
+
     //获得宝石属性
     public static String GetGemsattribute(List<String> GemLore){
         return GemLore.get(1);

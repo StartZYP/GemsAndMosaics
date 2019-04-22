@@ -14,9 +14,11 @@ public class PlayerUi {
         for (int i=0;i<54;i++){
             if (i<=9){
                 inventoryView.setItem(i,border);
-            }else if (i<=12){
+            }else if (i<=13){
                 inventoryView.setItem(i,addblock);
-            }else if (i==17||i==18){
+            }else if (i==15){
+                inventoryView.setItem(i,addblock);
+            } else if (i==14||i==16){
                 inventoryView.setItem(i,border);
             }else if (i==19||i==21){
                 inventoryView.setItem(i,addblock);

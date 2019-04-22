@@ -19,6 +19,7 @@ import com.qq44920040.Minecraft.GemsAndMosaics.Util.publicItem;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -65,7 +66,6 @@ public class ListenerMain implements Listener {
         Player player = (Player) event.getWhoClicked();
         if (invtitle.equalsIgnoreCase(ContsNumber.GemsComposeGuiTitle)){
             int slot = event.getSlot();
-            System.out.println(slot);
             if (slot>=0&&slot<=9||slot>=15&&slot<=26){
                 event.setCancelled(true);
             }
@@ -79,7 +79,6 @@ public class ListenerMain implements Listener {
                 }
                 if (itemStackList.size()==ContsNumber.GemsNumberCompose){
                     if (itemStackList.stream().filter(Gems::IsGems).count()==ContsNumber.GemsNumberCompose){
-                        System.out.println("有五个");
                         String level = NbtGetSet.GetItemDate("GemLevel",itemStackList.get(0));
                         if (itemStackList.stream().filter(o->NbtGetSet.GetItemDate("GemLevel",o).equalsIgnoreCase(level)&&Gems.GemsIsRange(o)).count()==ContsNumber.GemsNumberCompose){
                             String GemQuality = NbtGetSet.GetItemDate("GemQuality",itemStackList.get(0));
@@ -106,7 +105,24 @@ public class ListenerMain implements Listener {
             }
             //TODU
         }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
-
+            int slot = event.getSlot();
+            if (slot==34){
+                ItemStack itemStack = Inventory.getItem(20);
+                if (itemStack==null){
+                    return;
+                }
+                if (!itemStack.hasItemMeta()&&!itemStack.getItemMeta().hasLore()) {
+                    return;
+                    //无lore
+                }
+                List<String> lore = itemStack.getItemMeta().getLore();
+                if (!publicItem.EquipCanMosaic(lore)){
+                    //无不符合强化装备条件
+                    return;
+                }
+                //此处可以开始操作
+                //先判断放物品1号什么位置
+            }
         }
 
     }
