@@ -54,6 +54,8 @@ public class publicItem {
     public static int EquipStartLineNumber(List<String> itemStacklore,Boolean IsStart){
        return IsStart?itemStacklore.indexOf(Main.StartLine):itemStacklore.indexOf(Main.EndLine);
     }
+    //判断一个装备是否有是未打孔状态
+
     //得到装备Lore行的List集合
     public static List<String> GetEquipLoreList(int StartLine,List<String> lorelist){
         List<String> MosaicLore = new ArrayList<>();

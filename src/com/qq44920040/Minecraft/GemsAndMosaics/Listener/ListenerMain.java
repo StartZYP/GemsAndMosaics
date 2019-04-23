@@ -4,6 +4,7 @@ package com.qq44920040.Minecraft.GemsAndMosaics.Listener;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.DecomposePaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
 import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
+import com.qq44920040.Minecraft.GemsAndMosaics.Entity.PunchPaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
 import org.bukkit.Material;
@@ -106,19 +107,38 @@ public class ListenerMain implements Listener {
             //TODU
         }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
             int slot = event.getSlot();
-            if (slot==34){
-                ItemStack itemStack = Inventory.getItem(20);
-                if (itemStack==null){
+            if (slot==16){
+                ItemStack itemStack = Inventory.getItem(10);
+                ItemStack itemStack1 = Inventory.getItem(14);
+                if (itemStack==null&&itemStack1==null){
                     return;
                 }
-                if (!itemStack.hasItemMeta()&&!itemStack.getItemMeta().hasLore()) {
+                if (!itemStack.hasItemMeta()&&itemStack1.hasItemMeta()&&itemStack.getItemMeta().hasLore()&&itemStack1.getItemMeta().hasLore()) {
                     return;
                     //无lore
                 }
-                List<String> lore = itemStack.getItemMeta().getLore();
-                if (!publicItem.EquipCanMosaic(lore)){
+                List<String> loreitem = itemStack.getItemMeta().getLore();
+                if (!publicItem.EquipCanMosaic(loreitem)&&!PunchPaper.IsPunchPaper(itemStack1)){
                     //无不符合强化装备条件
                     return;
+                }
+                List<String> lorePunchPaper = itemStack1.getItemMeta().getLore();
+                String PunchType = NbtGetSet.GetItemDate("PunchType",itemStack1);
+                int lorelinestart = publicItem.EquipStartLineNumber(loreitem,true);
+                if (loreitem.get(lorelinestart+1).equalsIgnoreCase(Main.SlotLore[0])){
+                    if (Main.TypeArrayKey.get(0).equalsIgnoreCase(PunchType)){
+                        //给予对应lore 给消除队友的打孔符
+                    }else {
+                        //孔类型不匹配
+                    }
+                }else if (loreitem.get(lorelinestart+2).equalsIgnoreCase(Main.SlotLore[1])){
+                    if (Main.TypeArrayKey.get(1).equalsIgnoreCase(PunchType)){
+                        //给予对应lore 给消除队友的打孔符
+                    }else {
+                        //孔类型不匹配
+                    }
+                }else {
+
                 }
                 //此处可以开始操作
                 //先判断放物品1号什么位置

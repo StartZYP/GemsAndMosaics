@@ -56,4 +56,25 @@ public class PlayerUi {
         }
         return inventorView;
     }
+
+    public static Inventory PlayerOpenPunch(){
+        Inventory inventorView = Bukkit.createInventory(null,27,ContsNumber.PunchGuiTitle);
+        ItemStack border = new ItemStack(Material.BREAD);
+        ItemStack addblock = new ItemStack(Material.STAINED_GLASS_PANE);
+        ItemStack button = new ItemStack(Material.ARROW);
+        for (int i=0;i<=26;i++){
+            if (i<=9){
+                inventorView.setItem(i,border);
+            }else if (i>=11&&i<=13){
+                inventorView.setItem(i,addblock);
+            }else if (i==15){
+                inventorView.setItem(i,border);
+            }else if (i==16){
+                inventorView.setItem(i,button);
+            }else if (i>=17){
+                inventorView.setItem(i,border);
+            }
+        }
+        return inventorView;
+    }
 }
