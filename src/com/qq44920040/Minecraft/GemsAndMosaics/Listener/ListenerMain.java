@@ -18,11 +18,13 @@ import org.bukkit.inventory.ItemStack;
 
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.publicItem;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.ContsNumber;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.RecursiveTask;
 
 public class ListenerMain implements Listener {
     @EventHandler
@@ -105,40 +107,63 @@ public class ListenerMain implements Listener {
                 }
             }
             //TODU
-        }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
+        }else if (invtitle.equalsIgnoreCase(ContsNumber.PunchGuiTitle)){
             int slot = event.getSlot();
+            if (slot>=0&&slot<=9||slot>=11&&slot<14||slot>=15){
+                event.setCancelled(true);
+            }
             if (slot==16){
                 ItemStack itemStack = Inventory.getItem(10);
                 ItemStack itemStack1 = Inventory.getItem(14);
                 if (itemStack==null&&itemStack1==null){
                     return;
                 }
-                if (!itemStack.hasItemMeta()&&itemStack1.hasItemMeta()&&itemStack.getItemMeta().hasLore()&&itemStack1.getItemMeta().hasLore()) {
+                if (!Inventory.getItem(10).hasItemMeta()||!Inventory.getItem(10).hasItemMeta()) {
                     return;
                     //无lore
                 }
-                List<String> loreitem = itemStack.getItemMeta().getLore();
+                ItemMeta itemMetaitem = Inventory.getItem(10).getItemMeta();
+                ItemMeta itemMetaPunch = Inventory.getItem(14).getItemMeta();
+                if (!itemMetaitem.hasLore()&&!itemMetaPunch.hasLore()){
+                    return;
+                }
+                List<String> loreitem = itemMetaitem.getLore();
                 if (!publicItem.EquipCanMosaic(loreitem)&&!PunchPaper.IsPunchPaper(itemStack1)){
                     //无不符合强化装备条件
                     return;
                 }
-                List<String> lorePunchPaper = itemStack1.getItemMeta().getLore();
                 String PunchType = NbtGetSet.GetItemDate("PunchType",itemStack1);
                 int lorelinestart = publicItem.EquipStartLineNumber(loreitem,true);
-                if (loreitem.get(lorelinestart+1).equalsIgnoreCase(Main.SlotLore[0])){
-                    if (Main.TypeArrayKey.get(0).equalsIgnoreCase(PunchType)){
-                        //给予对应lore 给消除队友的打孔符
+                if (PunchType!=null){
+                    if (loreitem.get(lorelinestart+1).equalsIgnoreCase(Main.CheckSlotLore)){
+                        if (Main.TypeArrayKey.get(0).equalsIgnoreCase(PunchType)){
+                            //给予对应lore 给消除队友的打孔符//打阴孔
+                            loreitem.set(lorelinestart+1,Main.SlotLore[0]);
+                            Inventory.setItem(14,null);
+                            itemMetaitem.setLore(loreitem);
+                            Inventory.getItem(10).setItemMeta(itemMetaitem);
+                        }else {
+                            //孔类型不匹配
+                            player.sendMessage("孔类型与打孔符不匹配");
+                        }
+                    }else if (loreitem.get(lorelinestart+2).equalsIgnoreCase(Main.CheckSlotLore)){
+                        if (Main.TypeArrayKey.get(1).equalsIgnoreCase(PunchType)){
+                            //给予对应lore 给消除队友的打孔符
+                            loreitem.set(lorelinestart+2,Main.SlotLore[1]);
+                            Inventory.setItem(14,null);
+                            itemMetaitem.setLore(loreitem);
+                            Inventory.getItem(10).setItemMeta(itemMetaitem);
+                        }else {
+                            //打孔符不匹配请先开启阴孔
+                            player.sendMessage("打孔符不匹配请先开启阴孔");
+                        }
                     }else {
-                        //孔类型不匹配
-                    }
-                }else if (loreitem.get(lorelinestart+2).equalsIgnoreCase(Main.SlotLore[1])){
-                    if (Main.TypeArrayKey.get(1).equalsIgnoreCase(PunchType)){
-                        //给予对应lore 给消除队友的打孔符
-                    }else {
-                        //孔类型不匹配
+                        //提示强化的物品没有
+                        player.sendMessage("提示强化的物品没有");
                     }
                 }else {
-
+                    //提示物品不是打孔符
+                    player.sendMessage("物品不是打孔符");
                 }
                 //此处可以开始操作
                 //先判断放物品1号什么位置
