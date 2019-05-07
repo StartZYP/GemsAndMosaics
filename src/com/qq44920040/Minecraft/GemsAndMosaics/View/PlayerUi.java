@@ -8,31 +8,28 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerUi {
     public static Inventory PlayerOpenMosaicGui(){
-        Inventory inventoryView = Bukkit.createInventory(null,54, ContsNumber.MosaicGuiTitle);
+        Inventory inventoryView = Bukkit.createInventory(null,27, ContsNumber.MosaicGuiTitle);
         ItemStack border = new ItemStack(Material.BREAD);
         ItemStack addblock = new ItemStack(Material.STAINED_GLASS_PANE);
-        for (int i=0;i<54;i++){
+        ItemStack button = new ItemStack(Material.ARROW);
+        for (int i=0;i<27;i++){
             if (i<=9){
                 inventoryView.setItem(i,border);
-            }else if (i<=13){
+            }else if (i==10){
                 inventoryView.setItem(i,addblock);
-            }else if (i==15){
+            }else if(i==13){
+                inventoryView.setItem(i,button);
+            } else if (i==12||i==14){
                 inventoryView.setItem(i,addblock);
-            } else if (i==14||i==16){
+            } else if (i==16){
+                inventoryView.setItem(i,addblock);
+            }else if (i==17||i==18){
                 inventoryView.setItem(i,border);
-            }else if (i==19||i==21){
+            }else if (i>=19&&i<=21){
                 inventoryView.setItem(i,addblock);
-            }else if (i==26||i==27){
-                inventoryView.setItem(i,border);
-            }else if (i>=28&&i<=30){
+            }else if (i>=23&&i<=25){
                 inventoryView.setItem(i,addblock);
-            }else if (i>=32&&i<=34){
-                inventoryView.setItem(i,addblock);
-            }else if (i==35||i==36){
-                inventoryView.setItem(i,border);
-            }else if (i>=37&&i<=43){
-                inventoryView.setItem(i,addblock);
-            }else if (i>=44){
+            }else if (i>=26){
                 inventoryView.setItem(i,border);
             }
         }

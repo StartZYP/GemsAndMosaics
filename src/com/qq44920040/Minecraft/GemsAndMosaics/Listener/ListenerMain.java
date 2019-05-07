@@ -8,6 +8,7 @@ import com.qq44920040.Minecraft.GemsAndMosaics.Entity.PunchPaper;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,13 +33,15 @@ public class ListenerMain implements Listener {
         Player player = event.getPlayer();
         ItemStack itemStack = player.getItemInHand();
         if (itemStack!=null&&itemStack.getType()!= Material.AIR){
-                if (NbtGetSet.GetItemDate("MosaicType",itemStack)!=null){
-                    if (publicItem.ItemCanUporDownLevel(itemStack)){
-                        publicItem.TakeComposeItem(player,itemStack,ContsNumber.MosaicPaperLevelUpNeedNum);
-                        player.getInventory().addItem(MosaicPaper.UpMosaicPaper(itemStack));
+                if (NbtGetSet.GetItemDate("MosaicType",itemStack)!=null&&NbtGetSet.GetItemDate("MosaicLevel",itemStack)!=null){
+                    int MosaicLevel = Integer.parseInt(NbtGetSet.GetItemDate("MosaicLevel",itemStack))+1;
+                    String MosaicType = NbtGetSet.GetItemDate("MosaicType",itemStack);
+                    if (MosaicPaper.MosaicIsRange(itemStack)&&itemStack.getAmount()==ContsNumber.MosaicPaperLevelUpNeedNum){
+                        player.getInventory().addItem(MosaicPaper.MakeMosaicPaper(MosaicLevel,MosaicType));
+                       player.setItemInHand(new ItemStack(Material.AIR));
                         player.sendMessage("合成镶嵌符成功");
                     }else {
-                        player.sendMessage("你的物品等级貌似超出或小了");
+                        player.sendMessage("你的物品等级貌似超出或小了，或者物品数量不为10");
                     }
                 }else if (DecomposePaper.IsDecomposePaper(itemStack)&&Gems.GemsIsRange(itemStack)){
                     Inventory inv = player.getInventory();
@@ -60,10 +63,10 @@ public class ListenerMain implements Listener {
 
     @EventHandler
     public void InventoryClickEvent(InventoryClickEvent event){
-        Inventory Inventory = event.getClickedInventory();
+        Inventory inventory = event.getClickedInventory();
         String invtitle = "";
         try{
-            invtitle = Inventory.getTitle();
+            invtitle = inventory.getTitle();
         }catch (NullPointerException e){
         }
         Player player = (Player) event.getWhoClicked();
@@ -75,7 +78,7 @@ public class ListenerMain implements Listener {
             if (slot==16){
                 List<ItemStack> itemStackList = new ArrayList<>();
                 for (int i=10;i<=14;i++){
-                    ItemStack itemStack = Inventory.getItem(i);
+                    ItemStack itemStack = inventory.getItem(i);
                     if (itemStack!=null){
                         itemStackList.add(itemStack);
                     }
@@ -89,13 +92,13 @@ public class ListenerMain implements Listener {
                                 //这是宝石都是统一品质等级
                                 event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(Main.GemsLevelQuality.indexOf(GemQuality)+1),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
                                 for (int i=10;i<=14;i++){
-                                    Inventory.setItem(i,null);
+                                    inventory.setItem(i,null);
                                 }
                             }else {
                                 //这是宝石有一种是非同一品质丢
                                 event.getWhoClicked().getInventory().addItem(Gems.MakeGems(Integer.parseInt(level)+1, Main.GemsLevelQuality.get(new Random().nextInt(Main.GemsLevelQuality.size())),NbtGetSet.GetItemDate("Attribute",itemStackList.get(0))));
                                 for (int i=10;i<=14;i++){
-                                    Inventory.setItem(i,null);
+                                    inventory.setItem(i,null);
                                 }
                             }
                         }else {
@@ -113,17 +116,17 @@ public class ListenerMain implements Listener {
                 event.setCancelled(true);
             }
             if (slot==16){
-                ItemStack itemStack = Inventory.getItem(10);
-                ItemStack itemStack1 = Inventory.getItem(14);
+                ItemStack itemStack = inventory.getItem(10);
+                ItemStack itemStack1 = inventory.getItem(14);
                 if (itemStack==null&&itemStack1==null){
                     return;
                 }
-                if (!Inventory.getItem(10).hasItemMeta()||!Inventory.getItem(10).hasItemMeta()) {
+                if (!inventory.getItem(10).hasItemMeta()||!inventory.getItem(10).hasItemMeta()) {
                     return;
                     //无lore
                 }
-                ItemMeta itemMetaitem = Inventory.getItem(10).getItemMeta();
-                ItemMeta itemMetaPunch = Inventory.getItem(14).getItemMeta();
+                ItemMeta itemMetaitem = inventory.getItem(10).getItemMeta();
+                ItemMeta itemMetaPunch = inventory.getItem(14).getItemMeta();
                 if (!itemMetaitem.hasLore()&&!itemMetaPunch.hasLore()){
                     return;
                 }
@@ -139,9 +142,10 @@ public class ListenerMain implements Listener {
                         if (Main.TypeArrayKey.get(0).equalsIgnoreCase(PunchType)){
                             //给予对应lore 给消除队友的打孔符//打阴孔
                             loreitem.set(lorelinestart+1,Main.SlotLore[0]);
-                            Inventory.setItem(14,null);
+                            inventory.setItem(14,null);
                             itemMetaitem.setLore(loreitem);
-                            Inventory.getItem(10).setItemMeta(itemMetaitem);
+                            inventory.getItem(10).setItemMeta(itemMetaitem);
+                            inventory.setItem(10,NbtGetSet.SetItemData("yin","null",inventory.getItem(10)));
                         }else {
                             //孔类型不匹配
                             player.sendMessage("孔类型与打孔符不匹配");
@@ -150,9 +154,10 @@ public class ListenerMain implements Listener {
                         if (Main.TypeArrayKey.get(1).equalsIgnoreCase(PunchType)){
                             //给予对应lore 给消除队友的打孔符
                             loreitem.set(lorelinestart+2,Main.SlotLore[1]);
-                            Inventory.setItem(14,null);
+                            inventory.setItem(14,null);
                             itemMetaitem.setLore(loreitem);
-                            Inventory.getItem(10).setItemMeta(itemMetaitem);
+                            inventory.getItem(10).setItemMeta(itemMetaitem);
+                            inventory.setItem(10,NbtGetSet.SetItemData("yang","null",inventory.getItem(10)));
                         }else {
                             //打孔符不匹配请先开启阴孔
                             player.sendMessage("打孔符不匹配请先开启阴孔");
@@ -168,6 +173,32 @@ public class ListenerMain implements Listener {
                 //此处可以开始操作
                 //先判断放物品1号什么位置
             }
+        }else if (invtitle.equalsIgnoreCase(ContsNumber.MosaicGuiTitle)){
+            int slot = event.getSlot();
+            if (slot!=11&&slot!=15&&slot!=22&&slot<=26){
+                event.setCancelled(true);
+            }
+            //判断22号位置是否有物品
+            if (slot==13){
+                ItemStack itemStack = inventory.getItem(22);
+                ItemStack Gemsitem = inventory.getItem(11);
+                ItemStack Mosaicitem = inventory.getItem(15);
+                if (itemStack==null||Gemsitem==null||Mosaicitem==null){
+                    return;
+                }
+                //判断三个物品都是正确的
+                if (!Gems.IsGems(Gemsitem)||NbtGetSet.GetItemDate("MosaicType",Mosaicitem)==null||NbtGetSet.GetItemDate("yin",itemStack)==null||NbtGetSet.GetItemDate("yang",itemStack)==null){
+                    return;
+                }
+                //
+                String GemsLevel = NbtGetSet.GetItemDate("GemLevel",Gemsitem);
+                String GemsQuality = NbtGetSet.GetItemDate("GemQuality",Gemsitem);
+                String GemsAttribute = NbtGetSet.GetItemDate("Attribute",Gemsitem);
+
+
+
+            }
+
         }
 
     }

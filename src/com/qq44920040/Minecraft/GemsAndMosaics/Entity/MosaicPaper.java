@@ -25,19 +25,15 @@ public class MosaicPaper {
         itemMeta.setDisplayName("镶嵌符等级:"+Transformation.a2r(Level)+"镶嵌符:"+Type);
         itemMeta.setLore(Arrays.asList("这是打孔符","这是他的lore"));
         itemStack.setItemMeta(itemMeta);
+        itemStack.setAmount(1);
         itemStack = NbtGetSet.SetItemData("MosaicLevel",String.valueOf(Level),itemStack);
-        return NbtGetSet.SetItemData("MosaicType",String.valueOf(Level),itemStack);
+        return NbtGetSet.SetItemData("MosaicType",String.valueOf(Type),itemStack);
     }
 
-    public static ItemStack UpMosaicPaper(ItemStack itemStack){
-        itemStack.setAmount(1);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        String DisPlayName = itemMeta.getDisplayName();
-        String Level = Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).group(0);
-        String RePlaceLevel = Transformation.a2r(Transformation.r2a(Level)+1);
-        String NowDisPlayerName = DisPlayName.replace(Level,RePlaceLevel);
-        itemMeta.setDisplayName(NowDisPlayerName);
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
+    public static boolean MosaicIsRange(ItemStack itemStack){
+        int LevelNumber = Integer.parseInt(NbtGetSet.GetItemDate("MosaicLevel",itemStack));
+        return LevelNumber>=1&&LevelNumber<=12;
     }
+
+
 }

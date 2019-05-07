@@ -68,9 +68,7 @@ public class Main extends JavaPlugin {
                 }else if (args.length==1&&args[0].equalsIgnoreCase("set")){
                     ItemStack itemInHand = ((Player) sender).getItemInHand();
                     if (itemInHand!=null){
-                        itemInHand = NbtGetSet.SetItemData("yin","null",publicItem.AddItemUpDownLine(itemInHand));
-                        itemInHand = NbtGetSet.SetItemData("yang","null",itemInHand);
-                        itemInHand = NbtGetSet.SetItemData("jun","null",itemInHand);
+                        itemInHand = NbtGetSet.SetItemData("jun","null",publicItem.AddItemUpDownLine(itemInHand));
                         ((Player) sender).setItemInHand(itemInHand);
                     }else {
                         sender.sendMessage("你手上没有装备物品，无法进行开启");
