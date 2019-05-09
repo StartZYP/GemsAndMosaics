@@ -25,17 +25,12 @@ public class publicItem {
         }
     }
     //物品能继续升级
-    public static boolean ItemCanUporDownLevel(ItemStack itemStack){
-        String DisPlayName = itemStack.getItemMeta().getDisplayName();
-        if (!Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).find()){
-            return false;
-        }
-        String Level = Pattern.compile(ContsNumber.RexNumber).matcher(DisPlayName).group(0);
-        if (Level!=null){
-            int Levenumber = Transformation.r2a(Level);
-            return Levenumber<ContsNumber.MaxGemsComposeLevel&&Levenumber>ContsNumber.MinGemsComposeLevel;
-        }
-        return false;
+    public static ItemStack MosaicEquip(ItemStack itemStack,String GemsLevel,String GemsQuality,String Attribute,String AttributeTogether,int MosaicTypeLine){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        List<String> lore = itemMeta.getLore();
+        int i = EquipStartLineNumber(lore, true)+MosaicTypeLine;
+        String ComposeStr = GemsLevel+":"+GemsQuality+":"+Attribute;
+
     }
     //取装备物品lore上的属性数值
     public static List<Integer> GetItemVaultNumber(String itemattbut){

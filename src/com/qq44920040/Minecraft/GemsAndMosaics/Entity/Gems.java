@@ -50,6 +50,7 @@ public class Gems {
         itemGems =  NbtGetSet.SetItemData("GemLevel",String.valueOf(Level),itemGems);
         itemGems = NbtGetSet.SetItemData("GemQuality",Quality,itemGems);
         itemGems = NbtGetSet.SetItemData("Attribute",Attribute,itemGems);
+        itemGems = NbtGetSet.SetItemData("AttributeTogether",Attribute+Attributevalue,itemGems);
         return itemGems;
     }
 }

@@ -184,19 +184,33 @@ public class ListenerMain implements Listener {
                 ItemStack Gemsitem = inventory.getItem(11);
                 ItemStack Mosaicitem = inventory.getItem(15);
                 if (itemStack==null||Gemsitem==null||Mosaicitem==null){
+                    player.sendMessage("镶嵌界面物品不可以为空");
                     return;
                 }
                 //判断三个物品都是正确的
                 if (!Gems.IsGems(Gemsitem)||NbtGetSet.GetItemDate("MosaicType",Mosaicitem)==null||NbtGetSet.GetItemDate("yin",itemStack)==null||NbtGetSet.GetItemDate("yang",itemStack)==null){
+                    player.sendMessage("放置物品不正确！");
                     return;
                 }
-                //
+                //得到宝石属性
                 String GemsLevel = NbtGetSet.GetItemDate("GemLevel",Gemsitem);
                 String GemsQuality = NbtGetSet.GetItemDate("GemQuality",Gemsitem);
                 String GemsAttribute = NbtGetSet.GetItemDate("Attribute",Gemsitem);
+                String AttributeTogether = NbtGetSet.GetItemDate("AttributeTogether",Gemsitem);
+                //得到镶嵌符属性
+                String MosaicLevel = NbtGetSet.GetItemDate("MosaicLevel",Mosaicitem);
+                String MosaicType = NbtGetSet.GetItemDate("MosaicType",Mosaicitem);
+                //得到装备数据
 
+                if (NbtGetSet.GetItemDate("yin",itemStack)!=null&&Main.TypeArrayKey.get(0).equalsIgnoreCase(MosaicType)){
+                    
+                }else if (NbtGetSet.GetItemDate("yang",itemStack)!=null&&Main.TypeArrayKey.get(1).equalsIgnoreCase(MosaicType)){
 
+                }else if (NbtGetSet.GetItemDate("jun",itemStack)!=null&&Main.TypeArrayKey.get(2).equalsIgnoreCase(MosaicType)){
 
+                }else {
+                    player.sendMessage("装备未开孔啊");
+                }
             }
 
         }
