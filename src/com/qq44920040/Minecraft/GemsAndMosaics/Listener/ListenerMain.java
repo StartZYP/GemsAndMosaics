@@ -33,7 +33,7 @@ public class ListenerMain implements Listener {
         Player player = event.getPlayer();
         ItemStack itemStack = player.getItemInHand();
         if (itemStack!=null&&itemStack.getType()!= Material.AIR){
-                if (NbtGetSet.GetItemDate("MosaicType",itemStack)!=null&&NbtGetSet.GetItemDate("MosaicLevel",itemStack)!=null){
+                if (MosaicPaper.IsMosaicPaper(itemStack)){
                     int MosaicLevel = Integer.parseInt(NbtGetSet.GetItemDate("MosaicLevel",itemStack))+1;
                     String MosaicType = NbtGetSet.GetItemDate("MosaicType",itemStack);
                     if (MosaicPaper.MosaicIsRange(itemStack)&&itemStack.getAmount()==ContsNumber.MosaicPaperLevelUpNeedNum){
@@ -201,19 +201,28 @@ public class ListenerMain implements Listener {
                 String MosaicLevel = NbtGetSet.GetItemDate("MosaicLevel",Mosaicitem);
                 String MosaicType = NbtGetSet.GetItemDate("MosaicType",Mosaicitem);
                 //得到装备数据
-
+                if (!MosaicLevel.equalsIgnoreCase(GemsLevel)){
+                    player.sendMessage("镶嵌宝石和镶嵌符等级不对");
+                    return;
+                }
                 if (NbtGetSet.GetItemDate("yin",itemStack)!=null&&Main.TypeArrayKey.get(0).equalsIgnoreCase(MosaicType)){
-                    
+                    player.getInventory().addItem(publicItem.MosaicEquip(itemStack,GemsLevel,GemsQuality,GemsAttribute,AttributeTogether,1));
+                    inventory.setItem(22,publicItem.MosaicEquip(itemStack,GemsLevel,GemsQuality,GemsAttribute,AttributeTogether,1));
+                    inventory.setItem(11,null);
+                    inventory.setItem(15,null);
+                    System.out.println("yin");
                 }else if (NbtGetSet.GetItemDate("yang",itemStack)!=null&&Main.TypeArrayKey.get(1).equalsIgnoreCase(MosaicType)){
-
+                    inventory.setItem(22,publicItem.MosaicEquip(itemStack,GemsLevel,GemsQuality,GemsAttribute,AttributeTogether,2));
+                    inventory.setItem(11,null);
+                    inventory.setItem(15,null);
                 }else if (NbtGetSet.GetItemDate("jun",itemStack)!=null&&Main.TypeArrayKey.get(2).equalsIgnoreCase(MosaicType)){
-
+                    inventory.setItem(22,publicItem.MosaicEquip(itemStack,GemsLevel,GemsQuality,GemsAttribute,AttributeTogether,3));
+                    inventory.setItem(11,null);
+                    inventory.setItem(15,null);
                 }else {
                     player.sendMessage("装备未开孔啊");
                 }
             }
-
         }
-
     }
 }

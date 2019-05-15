@@ -30,7 +30,17 @@ public class publicItem {
         List<String> lore = itemMeta.getLore();
         int i = EquipStartLineNumber(lore, true)+MosaicTypeLine;
         String ComposeStr = GemsLevel+":"+GemsQuality+":"+Attribute;
-
+        lore.set(i,AttributeTogether);
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+        if (MosaicTypeLine==1){
+            return NbtGetSet.SetItemData("yin",ComposeStr,itemStack);
+        }else if (MosaicTypeLine==2){
+            return NbtGetSet.SetItemData("yang",ComposeStr,itemStack);
+        }else if (MosaicTypeLine==3){
+            return NbtGetSet.SetItemData("jun",ComposeStr,itemStack);
+        }
+        return itemStack;
     }
     //取装备物品lore上的属性数值
     public static List<Integer> GetItemVaultNumber(String itemattbut){
@@ -50,16 +60,6 @@ public class publicItem {
        return IsStart?itemStacklore.indexOf(Main.StartLine):itemStacklore.indexOf(Main.EndLine);
     }
     //判断一个装备是否有是未打孔状态
-
-    //得到装备Lore行的List集合
-    public static List<String> GetEquipLoreList(int StartLine,List<String> lorelist){
-        List<String> MosaicLore = new ArrayList<>();
-        for (int i=StartLine;i<=StartLine+4;i++){
-            MosaicLore.add(lorelist.get(i));
-        }
-        return MosaicLore;
-    }
-
     //获得宝石属性
     public static String GetGemsattribute(List<String> GemLore){
         return GemLore.get(1);

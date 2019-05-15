@@ -17,6 +17,14 @@ import com.qq44920040.Minecraft.GemsAndMosaics.Util.Transformation;
 
 public class MosaicPaper {
 
+    public static Boolean IsMosaicPaper(ItemStack itemStack){
+        if (NbtGetSet.GetItemDate("MosaicType",itemStack)!=null&&NbtGetSet.GetItemDate("MosaicLevel",itemStack)!=null){
+            if (!NbtGetSet.GetItemDate("MosaicType",itemStack).equalsIgnoreCase("")){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public static ItemStack MakeMosaicPaper(int Level,String Type){
