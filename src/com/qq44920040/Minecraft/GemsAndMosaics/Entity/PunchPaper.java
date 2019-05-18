@@ -21,8 +21,8 @@ public class PunchPaper {
     public static ItemStack MakePunchPaper(String Type){
         ItemStack itemStack = new ItemStack(Material.BLAZE_ROD);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName("打孔符类型:"+Type);
-        itemMeta.setLore(Arrays.asList("打孔符","很牛逼的打孔符"));
+        itemMeta.setDisplayName("&8&l[&b&l►&8&l]&8&l打孔符-"+Type+"&8&l[&b&l◄&8&l]");
+        itemMeta.setLore(Arrays.asList("&8&m--]&f&m---------&f[&b道具信息&f]&f&m---------&8&m[--","&8&l[&d&l☣&8&l]道具类型:符咒","&8&l[&d&li&8&l]ITEMUUID:0204"));
         itemStack.setItemMeta(itemMeta);
         return NbtGetSet.SetItemData("PunchType",Type,itemStack);
     }

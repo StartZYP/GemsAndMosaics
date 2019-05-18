@@ -30,8 +30,8 @@ public class MosaicPaper {
     public static ItemStack MakeMosaicPaper(int Level,String Type){
         ItemStack itemStack = new ItemStack(Material.BARRIER);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName("镶嵌符等级:"+Transformation.a2r(Level)+"镶嵌符:"+Type);
-        itemMeta.setLore(Arrays.asList("这是打孔符","这是他的lore"));
+        itemMeta.setDisplayName("&8&l[&b&l►&8&l]&8&l"+Transformation.a2r(Level)+"级-镶嵌符-"+Type+"&8&l[&b&l◄&8&l]");
+        itemMeta.setLore(Arrays.asList("&8&m--]&f&m---------&f[&b道具信息&f]&f&m---------&8&m[--","&8&l[&d&l☣&8&l]道具类型:符咒","&8&l[&d&l☣&8&l]道具等级:"+Transformation.a2r(Level),"&8&l[&d&li&8&l]ITEMUUID:0205"));
         itemStack.setItemMeta(itemMeta);
         itemStack.setAmount(1);
         itemStack = NbtGetSet.SetItemData("MosaicLevel",String.valueOf(Level),itemStack);
