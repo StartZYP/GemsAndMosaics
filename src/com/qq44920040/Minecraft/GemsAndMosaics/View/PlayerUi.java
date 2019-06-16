@@ -74,4 +74,20 @@ public class PlayerUi {
         }
         return inventorView;
     }
+
+    public static Inventory PlayerOpenDismantle(){
+        Inventory inventorView = Bukkit.createInventory(null,27,ContsNumber.DismantleGuiTitle);
+        ItemStack button = new ItemStack(Material.ARROW);
+        ItemStack addblock = new ItemStack(Material.STAINED_GLASS_PANE);
+        for (int a=0;a<=26;a++){
+            if (a==10||a==14){
+                inventorView.setItem(a,null);
+            }else if (a==16){
+                inventorView.setItem(a,button);
+            }else {
+                inventorView.setItem(a,addblock);
+            }
+        }
+        return inventorView;
+    }
 }

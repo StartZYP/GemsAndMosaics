@@ -13,17 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class publicItem {
-    //物品减少函数
-    public static void TakeComposeItem(Player player, ItemStack itemStack,int Num){
-        int Amount = itemStack.getAmount();
-        if (Amount==Num){
-            player.getInventory().remove(itemStack);
-        }else {
-            player.getInventory().remove(itemStack);
-            itemStack.setAmount(Amount-Num);
-            player.getInventory().addItem(itemStack);
-        }
-    }
     //物品能继续升级
     public static ItemStack MosaicEquip(ItemStack itemStack,String GemsLevel,String GemsQuality,String Attribute,String AttributeTogether,int MosaicTypeLine){
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -82,19 +71,18 @@ public class publicItem {
             itemStack.setItemMeta(itemMeta);
             return itemStack;
     }
-    //给物品添加各种孔
-    public static ItemStack AddPunch(ItemStack itemStack,int RepalceLine,String PunchLore){
+
+    //拆卸装备并且清理lore
+    public static ItemStack CleanGemsLore(ItemStack itemStack){
         ItemMeta itemMeta = itemStack.getItemMeta();
-        List<String> lores = itemMeta.getLore();
-        lores.set(RepalceLine,PunchLore);
-        itemMeta.setLore(lores);
+        List<String> lore = itemMeta.getLore();
+        int i = EquipStartLineNumber(lore, true);
+        lore.set(i+1,Main.CheckSlotLore);
+        lore.set(i+2,Main.CheckSlotLore);
+        lore.set(i+3,Main.SlotLore[3]);
+        itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
-    }
-
-    //给物品添加孔位镶嵌宝石丢NBT属性
-    public static ItemStack AddItemGemsattributeNBT(ItemStack itemStack,int GemsLevel,String Quality,String Attribute){
-        return NbtGetSet.SetItemData(Attribute,GemsLevel+":"+Quality,itemStack);
     }
 
 }

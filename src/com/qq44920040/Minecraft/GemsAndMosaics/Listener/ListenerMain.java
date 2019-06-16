@@ -1,10 +1,7 @@
 package com.qq44920040.Minecraft.GemsAndMosaics.Listener;
 
 
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.DecomposePaper;
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.Gems;
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.MosaicPaper;
-import com.qq44920040.Minecraft.GemsAndMosaics.Entity.PunchPaper;
+import com.qq44920040.Minecraft.GemsAndMosaics.Entity.*;
 import com.qq44920040.Minecraft.GemsAndMosaics.Main;
 import com.qq44920040.Minecraft.GemsAndMosaics.Util.NbtGetSet;
 import org.bukkit.Material;
@@ -222,6 +219,46 @@ public class ListenerMain implements Listener {
                 }else {
                     player.sendMessage("装备未开孔啊");
                 }
+            }
+        }else if (invtitle.equalsIgnoreCase(ContsNumber.DismantleGuiTitle)){
+            int slot = event.getSlot();
+            if (slot!=10&&slot!=14){
+                event.setCancelled(true);
+            }
+            if (slot==16){
+                ItemStack item = inventory.getItem(10);
+                if (item!=null&&item.hasItemMeta()&&item.getItemMeta().hasLore()){
+                    player.sendMessage("请放置正确装备");
+                    return;
+                }
+                if (!publicItem.EquipCanMosaic(item.getItemMeta().getLore())){
+                    player.sendMessage("装备不正确");
+                    return;
+                }
+                ItemStack DismantleItem = inventory.getItem(14);
+                if (!DismantlePaper.IsProtectPaper(DismantleItem)){
+                    player.sendMessage("您必须放置正确拆卸符，且数量为3个");
+                    return;
+                }
+                String yin = NbtGetSet.GetItemDate("yin", item);
+                String yang = NbtGetSet.GetItemDate("yang", item);
+                String jun =NbtGetSet.GetItemDate("jun",item);
+                if (!yin.equalsIgnoreCase("null")){
+                    String[] split = yin.split(":");
+                    player.getInventory().addItem(Gems.MakeGems(Integer.parseInt(split[0]),split[1],split[2]));
+                    item = NbtGetSet.SetItemData("yin","null",item);
+                }
+                if (!yang.equalsIgnoreCase("null")){
+                    String[] split = yang.split(":");
+                    player.getInventory().addItem(Gems.MakeGems(Integer.parseInt(split[0]),split[1],split[2]));
+                    item = NbtGetSet.SetItemData("yang","null",item);
+                }
+                if (!jun.equalsIgnoreCase("null")){
+                    String[] split = jun.split(":");
+                    player.getInventory().addItem(Gems.MakeGems(Integer.parseInt(split[0]),split[1],split[2]));
+                    item = NbtGetSet.SetItemData("jun","null",item);
+                }
+                inventory.setItem(10,publicItem.CleanGemsLore(item));
             }
         }
     }

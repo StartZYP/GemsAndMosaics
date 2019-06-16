@@ -6,7 +6,7 @@ GemsAndMosaics:
       Balance: "均衡"
     DecomposePaper: "分解符"
     PerforatedPaper: "打孔符"
-    DismantlePaper: "拆除符"
+    DismantlePaper: "拆卸符"
   Gems:
     Quality:
       - "劣质"

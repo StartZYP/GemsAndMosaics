@@ -44,8 +44,8 @@ public class Gems {
         }
         ItemStack itemGems = new ItemStack(Material.BREAD);
         ItemMeta itemMeta = itemGems.getItemMeta();
-        itemMeta.setDisplayName("&8&l[&b&l►&8&l]&8&l-"+Quality+"的-"+Transformation.a2r(Level)+"级-"+"宝石品质:"+Quality);
-        itemMeta.setLore(Arrays.asList("&8&m--]&f&m---------&f[&b宝石信息&f]&f&m---------&8&m[--","&8&l[&d&l☣&8&l]道具品质:"+Quality,"&8&l[&d&l☣&8&l]道具类型:宝石","&8&l[&d&l☣&8&l]道具等级:Transformation.a2r(Level)","&8&l[&d&li&8&l]GEMUUID:","&8&m--]&f&m---------&f[&b宝石属性&f]&f&m---------&8&m[--","&8&l[&d&l☣&8&l]"+Attribute+Attributevalue));
+        itemMeta.setDisplayName("§8§l[§b§l►§8§l]§8§l-"+Quality+"的-"+Transformation.a2r(Level)+"级-"+"宝石品质:"+Quality);
+        itemMeta.setLore(Arrays.asList("§8§m--]§f§m---------§f[§b宝石信息§f]§f§m---------§8§m[--","§8§l[§d§l☣§8§l]道具品质:"+Quality,"§8§l[§d§l☣§8§l]道具类型:宝石","§8§l[§d§l☣§8§l]道具等级:Transformation.a2r(Level)","§8§l[§d§li§8§l]GEMUUID:"+Main.GemsLevelQuality.indexOf(Quality)+Level,"§8§m--]§f§m---------§f[§b宝石属性§f]§f§m---------§8§m[--","§8§l[§d§l☣§8§l]"+Attribute+Attributevalue));
         itemGems.setItemMeta(itemMeta);
         itemGems =  NbtGetSet.SetItemData("GemLevel",String.valueOf(Level),itemGems);
         itemGems = NbtGetSet.SetItemData("GemQuality",Quality,itemGems);

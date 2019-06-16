@@ -83,6 +83,8 @@ public class Main extends JavaPlugin {
                 ((Player) sender).openInventory(PlayerUi.PlayerOpenMosaicGui());
             }else if (args.length==1&&args[0].equalsIgnoreCase("punch")){
                 ((Player) sender).openInventory(PlayerUi.PlayerOpenPunch());
+            }else if (args.length==1&&args[0].equalsIgnoreCase("Dismantle")){
+                ((Player) sender).openInventory(PlayerUi.PlayerOpenDismantle());
             }
         }
         return super.onCommand(sender, command, label, args);

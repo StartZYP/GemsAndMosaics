@@ -4,6 +4,7 @@ public class ContsNumber {
     //宝石最低等级最高等级
     public static final int MinGemsComposeLevel = 1;
     public static final int MaxGemsComposeLevel = 13;
+    public static final String DismantleGuiTitle= "拆卸界面";
     //宝石合成需要数量
     public static final int GemsNumberCompose = 5;
     //罗马判断正则
